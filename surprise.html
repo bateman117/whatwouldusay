@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>💘 For You, Minahil 💘</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('https://www.canva.com/templates/s/cute-pink-wallpaper/?continuation=50') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #fff0f5;
+      margin-bottom: 20px;
+      padding: 0 20px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    p {
+      font-size: 1.2em;
+      color: #ffe6f0;
+      max-width: 90%;
+      margin: 0 auto;
+      padding: 0 20px;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hearts {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      transform: rotate(45deg);
+      animation: float 8s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.5) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    audio {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2em;
+      }
+
+      p {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating hearts -->
+  <div class="hearts" id="hearts-container"></div>
+
+  <!-- Message -->
+  <h1>Yay! 💖</h1>
+  <p>
+    I can't wait to make amazing memories with you. <br>
+    You're the most sweetest and dearest thing to me in my life, Minahil 💌
+  </p>
+
+  <!-- Background Music -->
+  <audio autoplay loop id="bg-music">
+    <source src="jeff-buckley-snippet.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const container = document.getElementById('hearts-container');
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+      container.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 8000);
+    }
+
+    setInterval(createHeart, 300);
+
+    const audio = document.getElementById('bg-music');
+    audio.volume = 0.1;
+  </script>
+
+</body>
+</html>
