@@ -8,8 +8,7 @@
     body {
       margin: 0;
       padding: 0;
-      background: url('https://unsplash.com/photos/background-pattern-9KYrq4ca_Qs') no-repeat center center fixed;
-      background-size: cover;
+      background: linear-gradient(to top right, #ffe6f0, #ffc2d1);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -20,21 +19,34 @@
       text-align: center;
     }
 
+    h1, p {
+      opacity: 0;
+      animation: fadeIn 1.2s ease forwards;
+    }
+
     h1 {
       font-size: 2.5em;
-      color: #fff0f5;
+      color: #cc0066;
       margin-bottom: 20px;
       padding: 0 20px;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+      text-shadow: 1px 1px 6px rgba(255, 255, 255, 0.6);
+      animation-delay: 0.2s;
     }
 
     p {
       font-size: 1.2em;
-      color: #ffe6f0;
+      color: #99004d;
       max-width: 90%;
       margin: 0 auto;
       padding: 0 20px;
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+      text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.5);
+      animation-delay: 0.5s;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
 
     .hearts {
@@ -46,34 +58,34 @@
       overflow: hidden;
       z-index: 0;
       pointer-events: none;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+      animation-delay: 0.8s;
     }
 
     .heart {
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: pink;
+      background-color: var(--heart-color, pink);
       transform: rotate(45deg);
       animation: float 8s linear infinite;
+      border-radius: 5px;
     }
 
     .heart::before,
     .heart::after {
       content: '';
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: pink;
+      background-color: var(--heart-color, pink);
       border-radius: 50%;
     }
 
     .heart::before {
-      top: -10px;
+      top: -50%;
       left: 0;
     }
 
     .heart::after {
-      left: -10px;
+      left: -50%;
       top: 0;
     }
 
@@ -124,16 +136,28 @@
   <script>
     const container = document.getElementById('hearts-container');
 
+    const heartColors = ['#ffb6c1', '#ff69b4', '#ff4d6d', '#ffd1dc', '#e0bbff', '#a0e7e5'];
+
     function createHeart() {
       const heart = document.createElement('div');
       heart.classList.add('heart');
+
+      const color = heartColors[Math.floor(Math.random() * heartColors.length)];
+      heart.style.backgroundColor = color;
+      heart.style.setProperty('--heart-color', color);
       heart.style.left = Math.random() * 100 + 'vw';
+
+      const size = 15 + Math.random() * 15;
+      heart.style.width = `${size}px`;
+      heart.style.height = `${size}px`;
       heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+      heart.style.opacity = 0.8 + Math.random() * 0.2;
+
       container.appendChild(heart);
 
       setTimeout(() => {
         heart.remove();
-      }, 8000);
+      }, 10000);
     }
 
     setInterval(createHeart, 300);
