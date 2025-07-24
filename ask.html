@@ -55,6 +55,7 @@
       background-color: #eee;
       color: #555;
       position: relative;
+      transition: left 0.3s ease, top 0.3s ease;
     }
 
     #response {
@@ -90,21 +91,35 @@
     const audio = document.getElementById("bg-music");
     audio.volume = 0.1;
 
-    // No button moves randomly
+    let noMoved = false;
+
+    // Move "No" button only once on first hover
     noBtn.addEventListener("mouseover", () => {
-      const maxX = window.innerWidth - noBtn.offsetWidth - 40;
-      const maxY = window.innerHeight - noBtn.offsetHeight - 40;
-      const newX = Math.random() * maxX;
-      const newY = Math.random() * maxY;
-      noBtn.style.position = "absolute";
-      noBtn.style.left = `${newX}px`;
-      noBtn.style.top = `${newY}px`;
+      if (!noMoved) {
+        const maxX = window.innerWidth - noBtn.offsetWidth - 40;
+        const maxY = window.innerHeight - noBtn.offsetHeight - 40;
+        const newX = Math.random() * maxX;
+        const newY = Math.random() * maxY;
+        noBtn.style.position = "absolute";
+        noBtn.style.left = `${newX}px`;
+        noBtn.style.top = `${newY}px`;
+        noMoved = true;
+      }
     });
 
-    // Remove heart trail and confetti, no delay or redirect on "Yes"
+    // Redirect to page if "No" clicked after moving
+    noBtn.addEventListener("click", () => {
+      if (noMoved) {
+        window.location.href = "change-mind.html";
+      } else {
+        responseDiv.style.opacity = 1;
+        responseDiv.textContent = "Try moving the button first";
+      }
+    });
+
+    // Redirect "Yes" button click immediately
     yesBtn.addEventListener("click", () => {
-      responseDiv.style.opacity = 1;
-      responseDiv.textContent = "Yay! 💖 Thank you, Minahil!";
+      window.location.href = "surprise.html";
     });
   </script>
 
