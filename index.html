@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Minahil 💖</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.8em;
+      color: #cc0066;
+      text-align: center;
+      margin-bottom: 50px;
+      padding: 0 20px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 30px;
+      z-index: 1;
+    }
+
+    button {
+      font-size: 1.2em;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .yes {
+      background-color: #ff66a3;
+      color: white;
+    }
+
+    .yes:hover {
+      background-color: #ff3385;
+      transform: scale(1.1);
+    }
+
+    .no {
+      background-color: #eee;
+      color: #555;
+      position: relative;
+    }
+
+    canvas#confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .heart {
+      position: fixed;
+      width: 14px;
+      height: 14px;
+      background: #ff3399;
+      transform: rotate(45deg);
+      animation: floatUp 1s ease-out forwards;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: #ff3399;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -7px;
+      left: 0;
+    }
+
+    .heart::after {
+      top: 0;
+      left: -7px;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-80px) scale(0.8) rotate(45deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <audio autoplay loop id="bg-music">
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4efb309b5c.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <h1>I have to tell you something... 💭</h1>
+
+  <div class="buttons">
+    <button class="yes" id="proceedBtn" onclick="triggerConfetti()">Proceed</button>
+    <button class="no" id="leaveBtn">Leave me alone</button>
+  </div>
+
+  <script>
+    const leaveBtn = document.getElementById("leaveBtn");
+    const proceedBtn = document.getElementById("proceedBtn");
+    const audio = document.getElementById("bg-music");
+    audio.volume = 0.1;
+
+    // Runaway button effect
+    leaveBtn.addEventListener("mouseover", () => {
+      const maxX = window.innerWidth - leaveBtn.offsetWidth - 40;
+      const maxY = window.innerHeight - leaveBtn.offsetHeight - 40;
+      const newX = Math.random() * maxX;
+      const newY = Math.random() * maxY;
+      leaveBtn.style.position = "absolute";
+      leaveBtn.style.left = `${newX}px`;
+      leaveBtn.style.top = `${newY}px`;
+    });
+
+    // Heart trail on hover
+    proceedBtn.addEventListener("mousemove", (e) => {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = `${e.pageX}px`;
+      heart.style.top = `${e.pageY}px`;
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1000);
+    });
+
+    // Confetti animation + redirect
+    function triggerConfetti() {
+      const canvas = document.getElementById("confetti-canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const confetti = [];
+      for (let i = 0; i < 300; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 50 + 10,
+          color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+          tilt: Math.random() * 10 - 10,
+          tiltAngle: 0
+        });
+      }
+
+      function drawConfetti() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confetti.forEach(p => {
+          ctx.beginPath();
+          ctx.fillStyle = p.color;
+          ctx.ellipse(p.x + p.tilt, p.y, p.r, p.r / 2, Math.PI / 4, 0, 2 * Math.PI);
+          ctx.fill();
+        });
+        updateConfetti();
+        requestAnimationFrame(drawConfetti);
+      }
+
+      function updateConfetti() {
+        confetti.forEach(p => {
+          p.y += Math.cos(p.d / 10) + 1;
+          p.tiltAngle += 0.1;
+          p.tilt = Math.sin(p.tiltAngle) * 10;
+        });
+      }
+
+      drawConfetti();
+
+      setTimeout(() => {
+        window.location.href = "surprise.html";
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>
