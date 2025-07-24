@@ -65,52 +65,6 @@
       opacity: 0;
       transition: opacity 0.6s ease;
     }
-
-    .heart {
-      position: fixed;
-      width: 14px;
-      height: 14px;
-      background: #ff3399;
-      transform: rotate(45deg);
-      animation: floatUp 1s ease-out forwards;
-      pointer-events: none;
-      z-index: 999;
-    }
-
-    .heart::before,
-    .heart::after {
-      content: "";
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      background: #ff3399;
-      border-radius: 50%;
-    }
-
-    .heart::before {
-      top: -7px;
-      left: 0;
-    }
-
-    .heart::after {
-      top: 0;
-      left: -7px;
-    }
-
-    @keyframes floatUp {
-      to {
-        transform: translateY(-80px) scale(0.8) rotate(45deg);
-        opacity: 0;
-      }
-    }
-
-    canvas#confetti-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 999;
-    }
   </style>
 </head>
 <body>
@@ -120,12 +74,10 @@
     Your browser does not support the audio element.
   </audio>
 
-  <canvas id="confetti-canvas"></canvas>
-
   <h1>Will you be my girlfriend, Minahil? 💌</h1>
 
   <div class="buttons">
-    <button class="yes" id="yesBtn" onclick="triggerConfetti()">Yes</button>
+    <button class="yes" id="yesBtn">Yes</button>
     <button class="no" id="noBtn">No</button>
   </div>
 
@@ -149,64 +101,11 @@
       noBtn.style.top = `${newY}px`;
     });
 
-    // Heart trail effect on mousemove over "yes"
-    yesBtn.addEventListener("mousemove", (e) => {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.style.left = `${e.pageX}px`;
-      heart.style.top = `${e.pageY}px`;
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 1000);
+    // Remove heart trail and confetti, no delay or redirect on "Yes"
+    yesBtn.addEventListener("click", () => {
+      responseDiv.style.opacity = 1;
+      responseDiv.textContent = "Yay! 💖 Thank you, Minahil!";
     });
-
-    // Confetti animation + redirect
-    function triggerConfetti() {
-
-      const canvas = document.getElementById("confetti-canvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const confetti = [];
-
-      for (let i = 0; i < 300; i++) {
-        confetti.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height - canvas.height,
-          r: Math.random() * 6 + 4,
-          d: Math.random() * 50 + 10,
-          color: `hsl(${Math.random() * 360}, 100%, 60%)`,
-          tilt: Math.random() * 10 - 10,
-          tiltAngle: 0
-        });
-      }
-
-      function drawConfetti() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        confetti.forEach(p => {
-          ctx.beginPath();
-          ctx.fillStyle = p.color;
-          ctx.ellipse(p.x + p.tilt, p.y, p.r, p.r / 2, Math.PI / 4, 0, 2 * Math.PI);
-          ctx.fill();
-        });
-        updateConfetti();
-        requestAnimationFrame(drawConfetti);
-      }
-
-      function updateConfetti() {
-        confetti.forEach(p => {
-          p.y += Math.cos(p.d / 10) + 1;
-          p.tiltAngle += 0.1;
-          p.tilt = Math.sin(p.tiltAngle) * 10;
-        });
-      }
-
-      drawConfetti();
-
-      setTimeout(() => {
-        window.location.href = "surprise.html";
-      }, 3000);
-    }
   </script>
 
 </body>
