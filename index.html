@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Minahil 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    /* Mobile first */
     body {
       background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
       font-family: 'Segoe UI', sans-serif;
@@ -13,31 +15,42 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
       overflow: hidden;
+      text-align: center;
     }
 
     h1 {
-      font-size: 2.8em;
+      font-size: 1.8rem;
       color: #cc0066;
-      text-align: center;
-      margin-bottom: 50px;
-      padding: 0 20px;
+      margin-bottom: 40px;
+      line-height: 1.2;
+      max-width: 100%;
+      word-wrap: break-word;
     }
 
     .buttons {
       display: flex;
-      gap: 30px;
-      z-index: 1;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 320px;
+      position: relative; /* so no absolute children go outside */
     }
 
     button {
-      font-size: 1.2em;
-      padding: 14px 30px;
+      font-size: 1.3rem;
+      padding: 16px 0;
       border: none;
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s ease-in-out;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      user-select: none;
+      touch-action: manipulation;
+      position: relative;
     }
 
     .yes {
@@ -45,21 +58,22 @@
       color: white;
     }
 
-    .yes:hover {
+    .yes:hover,
+    .yes:focus {
       background-color: #ff3385;
-      transform: scale(1.1);
+      transform: scale(1.05);
+      outline: none;
     }
 
     .no {
       background-color: #eee;
       color: #555;
-      position: relative;
     }
   </style>
 </head>
 <body>
 
-  <audio autoplay loop id="bg-music">
+  <audio autoplay loop id="bg-music" muted>
     <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4efb309b5c.mp3" type="audio/mpeg" />
     Your browser does not support the audio element.
   </audio>
@@ -76,18 +90,32 @@
     const audio = document.getElementById("bg-music");
     audio.volume = 0.1;
 
-    // Runaway button effect
+    function getSafeRandom(max, min = 0) {
+      return Math.random() * (max - min) + min;
+    }
+
     leaveBtn.addEventListener("mouseover", () => {
-      const maxX = window.innerWidth - leaveBtn.offsetWidth - 40;
-      const maxY = window.innerHeight - leaveBtn.offsetHeight - 40;
-      const newX = Math.random() * maxX;
-      const newY = Math.random() * maxY;
-      leaveBtn.style.position = "absolute";
+      const btnWidth = leaveBtn.offsetWidth;
+      const btnHeight = leaveBtn.offsetHeight;
+      const maxX = window.innerWidth - btnWidth - 20;
+      const maxY = window.innerHeight - btnHeight - 20;
+
+      // Confine movement to bottom half of screen to keep it reachable
+      const newX = getSafeRandom(maxX, 10);
+      const newY = getSafeRandom(maxY * 0.5, window.innerHeight * 0.3);
+
+      leaveBtn.style.position = "fixed";
       leaveBtn.style.left = `${newX}px`;
       leaveBtn.style.top = `${newY}px`;
+      leaveBtn.style.zIndex = "10";
     });
 
-    // Go to ask.html immediately
+    // Support touch devices as well
+    leaveBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      leaveBtn.dispatchEvent(new Event('mouseover'));
+    });
+
     function goToAsk() {
       window.location.href = "letter.html";
     }
