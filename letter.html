@@ -4,7 +4,8 @@
 <meta charset="UTF-8" />
 <title>Letter with Bigger Size</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap" rel="stylesheet" />
+<!-- Using Dancing Script for letter and Next button font -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet" />
 <style>
   body {
     margin: 0;
@@ -13,7 +14,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Homemade Apple', cursive;
+    font-family: 'Dancing Script', cursive;
   }
 
   .envelope {
@@ -150,63 +151,91 @@
     transform: translateY(0);
   }
 
-  /* Letter text styling with more spacing */
+  /* Letter text styling with improved readability */
   #letter {
     flex-grow: 1;
-    font-family: 'Homemade Apple', cursive;
+    font-family: 'Dancing Script', cursive;
     font-size: 2.1rem;
-    line-height: 2.8rem;
-    color: #880e4f;
+    line-height: 3.1rem;
+    color: #5c0b2d;
     overflow-y: auto;
     user-select: text;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
+    text-shadow: 0.5px 0.5px 0.5px rgba(139, 69, 90, 0.2);
   }
+
   .line {
     opacity: 0;
-    margin-bottom: 0.7rem;
-    animation: handwriting 0.3s ease forwards;
+    margin-bottom: 0.8rem;
+    animation: handwriting 0.4s ease forwards;
   }
+  
   @keyframes handwriting {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Smaller, subtle non-cursive Next button at bottom */
-.next-button {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  font-size: 0.8rem;
-  color: #a35a77;
-  background: #fce7f0;
-  border: 1px solid #a35a77;
-  border-radius: 20px;
-  padding: 0.4rem 1rem;
-  margin-top: 1rem;
-  align-self: center;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: 0 0 4px rgba(163, 90, 119, 0.15);
-  transition: all 0.3s ease;
-  opacity: 0;
-  transform: translateY(2px);
-  animation: pulseNext 2.5s infinite;
-}
+  /* Next button: softer, handwritten style with gentle hover */
+  .next-button {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: #6a1b4d;
+    background: linear-gradient(135deg, #f8bbd0, #f48fb1);
+    border: none;
+    border-radius: 30px;
+    padding: 0.6rem 2rem;
+    margin-top: 1.2rem;
+    align-self: center;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 6px 12px rgba(244, 143, 177, 0.4);
+    transition: all 0.3s ease;
+    user-select: none;
+    outline-offset: 2px;
+    outline-color: #f48fb1;
+  }
 
-.next-button:hover {
-  background: #f8bbd0;
-  box-shadow: 0 0 10px rgba(163, 90, 119, 0.35);
-  transform: translateY(-1px) scale(1.03);
-}
+  .next-button:hover,
+  .next-button:focus {
+    background: linear-gradient(135deg, #f48fb1, #f06292);
+    box-shadow: 0 10px 20px rgba(244, 143, 177, 0.7);
+    transform: scale(1.07);
+    outline: none;
+  }
 
-@keyframes pulseNext {
-  0% { box-shadow: 0 0 4px rgba(163, 90, 119, 0.2); }
-  50% { box-shadow: 0 0 8px rgba(163, 90, 119, 0.4); }
-  100% { box-shadow: 0 0 4px rgba(163, 90, 119, 0.2); }
-}
+  /* Mobile-friendly "Open Letter" button */
+  .mobile-open-btn {
+    display: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    background: #f48fb1;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.6rem 1.5rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(244, 143, 177, 0.6);
+    transition: background-color 0.3s ease;
+  }
 
+  .mobile-open-btn:hover,
+  .mobile-open-btn:focus {
+    background: #f06292;
+    outline: none;
+    box-shadow: 0 6px 14px rgba(240, 100, 140, 0.8);
+  }
 
-  /* Responsive adjustments */
   @media (max-width: 768px) {
+    .mobile-open-btn {
+      display: block;
+    }
+    /* Slightly bigger tap area for envelope */
+    .envelope {
+      padding: 1rem;
+    }
     .envelope {
       height: 380px;
     }
@@ -246,6 +275,7 @@
     <div class="seal" id="seal">M</div>
     <div class="paper" id="paper">
       <div id="letter"></div>
+      <button id="mobileOpenBtn" class="mobile-open-btn" aria-label="Open letter" tabindex="0">Open Letter</button>
       <a href="ask.html" class="next-button" id="nextButton" tabindex="0">Next</a>
     </div>
   </div>
@@ -261,6 +291,7 @@
     const seal = document.getElementById('seal');
     const sealSound = document.getElementById('sealSound');
     const hoverSound = document.getElementById('hoverSound');
+    const mobileOpenBtn = document.getElementById('mobileOpenBtn');
 
     const letterLines = [
       "Dear You,",
@@ -280,7 +311,7 @@
       letterLines.forEach((line, i) => {
         const div = document.createElement('div');
         div.className = 'line';
-        div.style.animationDelay = `${i * 0.15}s`;
+        div.style.animationDelay = `${i * 0.2}s`;
         div.textContent = line;
         letter.appendChild(div);
       });
@@ -297,7 +328,7 @@
       setTimeout(() => {
         nextButton.style.opacity = 1;
         seal.classList.remove('press');
-      }, letterLines.length * 150 + 300);
+      }, letterLines.length * 200 + 300);
     }
 
     envelope.addEventListener('click', openLetter);
@@ -318,6 +349,12 @@
         hoverSound.play();
       }
     });
+
+    if (mobileOpenBtn) {
+      mobileOpenBtn.addEventListener('click', () => {
+        openLetter();
+      });
+    }
   </script>
 
 </body>
