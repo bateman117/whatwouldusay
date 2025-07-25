@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sealed With Love</title>
+  <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      background-image: url('https://i.imgur.com/OwlbA6B.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: 'Homemade Apple', cursive;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .envelope {
+      width: 320px;
+      height: 200px;
+      background: #e7d3b5;
+      border: 1px solid #c7b89f;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transform-origin: top;
+      transition: transform 1s ease;
+      z-index: 2;
+    }
+
+    .flap {
+      width: 0;
+      height: 0;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
+      border-bottom: 100px solid #d4bfa1;
+      position: absolute;
+      top: -100px;
+      left: 0;
+      z-index: 3;
+      transition: transform 1s ease;
+      transform-origin: bottom;
+    }
+
+    .letter {
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #3b2f2f;
+      line-height: 1.8;
+      font-size: 1.2em;
+      box-sizing: border-box;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .opened .flap {
+      transform: rotateX(180deg);
+    }
+
+    .opened .letter {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .seal {
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, #8b0000 20%, #5c0000 80%);
+      border-radius: 50%;
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 4;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      animation: pulse 2s infinite ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      color: #fff0f0;
+      font-weight: bold;
+    }
+
+    .seal:hover {
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    .seal.melting {
+      animation: melt 0.6s forwards;
+    }
+
+    @keyframes pulse {
+      0% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.1); }
+      100% { transform: translateX(-50%) scale(1); }
+    }
+
+    @keyframes melt {
+      0%   { opacity: 1; transform: translateX(-50%) scale(1); }
+      100% { opacity: 0; transform: translateX(-50%) scale(0.2) translateY(40px); }
+    }
+
+    .candle {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      width: 20px;
+      height: 40px;
+      z-index: 1;
+    }
+
+    .flame {
+      width: 12px;
+      height: 20px;
+      background: radial-gradient(ellipse at center, #ffd700 0%, #ff9900 70%, transparent 80%);
+      border-radius: 50%;
+      animation: flicker 1.3s infinite alternate ease-in-out;
+      filter: blur(1px);
+    }
+
+    @keyframes flicker {
+      0%   { transform: scale(1) translateY(0); opacity: 0.9; }
+      50%  { transform: scale(1.1) translateY(-1px); opacity: 1; }
+      100% { transform: scale(0.9) translateY(1px); opacity: 0.8; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="envelope" id="envelope">
+    <div class="flap"></div>
+    <div class="seal" id="seal">M</div>
+    <div class="letter">
+      <h3 style="margin-top: 0;">To My Dearest Minahil,</h3>
+      <p>
+        They say old paper burns slow when it carries something worth saving.
+        This letter is scorched with the weight of all I feel for you —
+        not with sadness, but with the warmth of something timeless.
+
+        You make ordinary days feel like poetry.
+        You turn the silence into comfort, the stillness into magic.
+
+        My heart isn’t perfect, but it’s yours —
+        and this letter is proof that something fragile can carry something eternal.
+
+        Always yours,  
+        <br>— The One Who Burns For You
+      </p>
+    </div>
+  </div>
+
+  <div class="candle">
+    <div class="flame"></div>
+  </div>
+
+  <audio id="waxSound" src="https://www.soundjay.com/mechanical/sounds/press-seal-1.mp3" preload="auto"></audio>
+
+  <script>
+    const seal = document.getElementById('seal');
+    const envelope = document.getElementById('envelope');
+    const waxSound = document.getElementById('waxSound');
+
+    seal.addEventListener('click', () => {
+      waxSound.play();
+      seal.classList.add('melting');
+      setTimeout(() => {
+        seal.style.display = 'none';
+        envelope.classList.add('opened');
+      }, 600);
+    });
+  </script>
+
+</body>
+</html>
