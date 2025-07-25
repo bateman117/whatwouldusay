@@ -149,7 +149,19 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .next-button {
+  /* Button row - stacked vertically */
+  .button-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 1rem;
+  }
+
+  /* The Next and Song buttons */
+  .next-button,
+  .song-button {
     font-family: 'Dancing Script', cursive;
     font-weight: 500;
     font-size: 1.2rem;
@@ -158,7 +170,6 @@
     border: none;
     border-radius: 30px;
     padding: 0.6rem 2rem;
-    margin: 1rem auto 0 auto;
     cursor: pointer;
     text-decoration: none;
     box-shadow: 0 6px 12px rgba(244, 143, 177, 0.4);
@@ -166,24 +177,45 @@
     user-select: none;
     outline-offset: 2px;
     outline-color: #f48fb1;
-    max-width: 200px;
-    display: block;
+    max-width: 260px;
+    display: inline-block;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease;
+    text-align: center;
   }
 
-  .next-button.visible {
+  .next-button.visible,
+  .song-button.visible {
     opacity: 1;
     pointer-events: auto;
   }
 
   .next-button:hover,
-  .next-button:focus {
+  .next-button:focus,
+  .song-button:hover,
+  .song-button:focus {
     background: linear-gradient(135deg, #f48fb1, #f06292);
     box-shadow: 0 10px 20px rgba(244, 143, 177, 0.7);
     transform: scale(1.07);
     outline: none;
+  }
+
+  /* OR text styling */
+  .or-text {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+    color: #6a1b4d;
+    font-size: 1.4rem;
+    user-select: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .envelope.open .or-text {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   /* Hide mobile open button completely */
@@ -199,7 +231,13 @@
     <div class="seal" id="seal">M</div>
     <div class="paper" id="paper">
       <div id="letter"></div>
-      <a href="ask.html" class="next-button" id="nextButton" tabindex="0">Next</a>
+
+      <div class="button-row">
+        <a href="ask.html" class="next-button" id="nextButton" tabindex="0">Next</a>
+        <div class="or-text" aria-hidden="true">OR</div>
+        <a href="aboutyou.html" class="song-button" id="songButton" tabindex="0">Song that reminds me of you</a>
+      </div>
+
     </div>
   </div>
 
@@ -210,6 +248,7 @@
     const envelope = document.getElementById('envelope');
     const letter = document.getElementById('letter');
     const nextButton = document.getElementById('nextButton');
+    const songButton = document.getElementById('songButton');
     const seal = document.getElementById('seal');
     const sealSound = document.getElementById('sealSound');
     const hoverSound = document.getElementById('hoverSound');
@@ -246,8 +285,10 @@
       sealSound.play();
       showLetterLines();
       nextButton.classList.remove('visible');
+      songButton.classList.remove('visible');
       setTimeout(() => {
         nextButton.classList.add('visible');
+        songButton.classList.add('visible');
         seal.classList.remove('press');
       }, letterLines.length * 200 + 300);
     }
