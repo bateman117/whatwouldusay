@@ -7,7 +7,9 @@
   <style>
     /* Mobile-first base styles */
     body {
-      background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
+      background: linear-gradient(270deg, #ffe6f0, #ffccdd, #ffe6f0);
+      background-size: 600% 600%;
+      animation: gradientShift 20s ease infinite;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       flex-direction: column;
@@ -20,6 +22,14 @@
       color: #cc0066;
       transition: opacity 0.4s ease;
       opacity: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     h1 {
@@ -30,6 +40,9 @@
       line-height: 1.2;
       max-width: 100%;
       word-wrap: break-word;
+      text-shadow: 0 2px 8px rgba(204, 0, 102, 0.4);
+      position: relative;
+      z-index: 10;
     }
 
     button {
@@ -49,6 +62,8 @@
       animation-delay: 0.4s;
       user-select: none;
       touch-action: manipulation;
+      position: relative;
+      z-index: 10;
     }
 
     button:hover,
@@ -74,6 +89,33 @@
         transform: translateY(0);
       }
     }
+
+    /* Falling petal styles */
+    .petal {
+      position: fixed;
+      top: -40px;
+      width: 25px;
+      height: 25px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/4/4f/Cherry_blossom_petals.svg') no-repeat center/contain;
+      pointer-events: none;
+      opacity: 0.85;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      z-index: 5;
+      filter: drop-shadow(0 0 2px rgba(204, 0, 102, 0.5));
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -81,6 +123,14 @@
   <h1>Now knowing that I would like to ask you something...</h1>
 
   <button id="whatBtn" onclick="goToLetter()">What is it?</button>
+
+  <!-- Multiple petals -->
+  <div class="petal" style="left: 10%; animation-duration: 12s; animation-delay: 0s;"></div>
+  <div class="petal" style="left: 25%; animation-duration: 14s; animation-delay: 3s;"></div>
+  <div class="petal" style="left: 40%; animation-duration: 10s; animation-delay: 1s;"></div>
+  <div class="petal" style="left: 55%; animation-duration: 13s; animation-delay: 5s;"></div>
+  <div class="petal" style="left: 70%; animation-duration: 11s; animation-delay: 2s;"></div>
+  <div class="petal" style="left: 85%; animation-duration: 15s; animation-delay: 4s;"></div>
 
   <script>
     function goToLetter() {
