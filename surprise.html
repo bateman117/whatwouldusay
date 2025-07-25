@@ -27,10 +27,23 @@
       width: 100%; height: 100%;
       background-image: url('gandr-collage.jpg');
       background-size: cover;
-      background-position: center;
       background-repeat: no-repeat;
+      background-position: center;
       filter: brightness(0.35);
       z-index: -1;
+      animation: moveBg 60s ease-in-out infinite alternate;
+    }
+
+    @keyframes moveBg {
+      0% {
+        background-position: center center;
+      }
+      50% {
+        background-position: 52% 48%;
+      }
+      100% {
+        background-position: 50% 52%;
+      }
     }
 
     h1, p {
