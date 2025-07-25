@@ -5,7 +5,6 @@
   <title>Minahil 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* Mobile first */
     body {
       background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
       font-family: 'Segoe UI', sans-serif;
@@ -19,6 +18,7 @@
       box-sizing: border-box;
       overflow: hidden;
       text-align: center;
+      position: relative;
     }
 
     h1 {
@@ -28,6 +28,8 @@
       line-height: 1.2;
       max-width: 100%;
       word-wrap: break-word;
+      position: relative;
+      z-index: 2;
     }
 
     .buttons {
@@ -36,7 +38,8 @@
       gap: 20px;
       width: 100%;
       max-width: 320px;
-      position: relative; /* so no absolute children go outside */
+      position: relative;
+      z-index: 2;
     }
 
     button {
@@ -57,7 +60,6 @@
       background-color: #ff66a3;
       color: white;
     }
-
     .yes:hover,
     .yes:focus {
       background-color: #ff3385;
@@ -68,6 +70,25 @@
     .no {
       background-color: #eee;
       color: #555;
+    }
+
+    .bounce {
+      animation: bounce 0.4s ease-out;
+    }
+
+    @keyframes bounce {
+      0%   { transform: scale(1); }
+      30%  { transform: scale(1.15); }
+      60%  { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    #petalCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
     }
   </style>
 </head>
@@ -85,6 +106,8 @@
     <button class="no" id="leaveBtn">Leave me alone twink</button>
   </div>
 
+  <canvas id="petalCanvas"></canvas>
+
   <script>
     const leaveBtn = document.getElementById("leaveBtn");
     const audio = document.getElementById("bg-music");
@@ -100,7 +123,6 @@
       const maxX = window.innerWidth - btnWidth - 20;
       const maxY = window.innerHeight - btnHeight - 20;
 
-      // Confine movement to bottom half of screen to keep it reachable
       const newX = getSafeRandom(maxX, 10);
       const newY = getSafeRandom(maxY * 0.5, window.innerHeight * 0.3);
 
@@ -108,9 +130,12 @@
       leaveBtn.style.left = `${newX}px`;
       leaveBtn.style.top = `${newY}px`;
       leaveBtn.style.zIndex = "10";
+
+      leaveBtn.classList.remove("bounce");
+      void leaveBtn.offsetWidth;
+      leaveBtn.classList.add("bounce");
     });
 
-    // Support touch devices as well
     leaveBtn.addEventListener("touchstart", (e) => {
       e.preventDefault();
       leaveBtn.dispatchEvent(new Event('mouseover'));
@@ -119,6 +144,61 @@
     function goToAsk() {
       window.location.href = "letter.html";
     }
+
+    // Falling Petals
+    const canvas = document.getElementById("petalCanvas");
+    const ctx = canvas.getContext("2d");
+    let petals = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    class Petal {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * -canvas.height;
+        this.radius = Math.random() * 4 + 2;
+        this.speedY = Math.random() * 1 + 0.5;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.alpha = Math.random() * 0.5 + 0.3;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        if (this.y > canvas.height) this.reset();
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255, 182, 193, ${this.alpha})`;
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function initPetals(count = 60) {
+      for (let i = 0; i < count; i++) {
+        petals.push(new Petal());
+      }
+    }
+
+    function animatePetals() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach(petal => {
+        petal.update();
+        petal.draw();
+      });
+      requestAnimationFrame(animatePetals);
+    }
+
+    initPetals();
+    animatePetals();
   </script>
 
 </body>
