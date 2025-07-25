@@ -90,31 +90,15 @@
       }
     }
 
-    /* Falling petal styles */
-    .petal {
+    /* Canvas petals */
+    #petalCanvas {
       position: fixed;
-      top: -40px;
-      width: 25px;
-      height: 25px;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/4/4f/Cherry_blossom_petals.svg') no-repeat center/contain;
+      top: 0;
+      left: 0;
       pointer-events: none;
-      opacity: 0.85;
-      animation-name: fall;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-      z-index: 5;
-      filter: drop-shadow(0 0 2px rgba(204, 0, 102, 0.5));
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-      }
+      z-index: 1;
+      width: 100vw;
+      height: 100vh;
     }
   </style>
 </head>
@@ -124,13 +108,7 @@
 
   <button id="whatBtn" onclick="goToLetter()">What is it?</button>
 
-  <!-- Multiple petals -->
-  <div class="petal" style="left: 10%; animation-duration: 12s; animation-delay: 0s;"></div>
-  <div class="petal" style="left: 25%; animation-duration: 14s; animation-delay: 3s;"></div>
-  <div class="petal" style="left: 40%; animation-duration: 10s; animation-delay: 1s;"></div>
-  <div class="petal" style="left: 55%; animation-duration: 13s; animation-delay: 5s;"></div>
-  <div class="petal" style="left: 70%; animation-duration: 11s; animation-delay: 2s;"></div>
-  <div class="petal" style="left: 85%; animation-duration: 15s; animation-delay: 4s;"></div>
+  <canvas id="petalCanvas"></canvas>
 
   <script>
     function goToLetter() {
@@ -139,6 +117,61 @@
         window.location.href = "whatwouldusay.html";
       }, 400);
     }
+
+    // Petals canvas animation
+    const canvas = document.getElementById("petalCanvas");
+    const ctx = canvas.getContext("2d");
+    let petals = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    class Petal {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * -canvas.height;
+        this.radius = Math.random() * 4 + 2;
+        this.speedY = Math.random() * 1 + 0.5;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.alpha = Math.random() * 0.5 + 0.3;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        if (this.y > canvas.height) this.reset();
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255, 182, 193, ${this.alpha})`; // soft pink
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function initPetals(count = 60) {
+      for (let i = 0; i < count; i++) {
+        petals.push(new Petal());
+      }
+    }
+
+    function animatePetals() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach(petal => {
+        petal.update();
+        petal.draw();
+      });
+      requestAnimationFrame(animatePetals);
+    }
+
+    initPetals();
+    animatePetals();
   </script>
 
 </body>
