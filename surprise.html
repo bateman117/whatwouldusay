@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <title>💘 For You, Minahil 💘</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
       margin: 0;
-      padding: 0;
+      padding: 0 15px;
       position: relative;
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
@@ -23,41 +23,40 @@
 
     .overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background-image: url('gandr-collage.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      filter: brightness(0.35); /* Darker for better contrast */
+      filter: brightness(0.35);
       z-index: -1;
     }
 
-    h1,
-    p {
+    h1, p {
       opacity: 0;
       animation: fadeIn 1.2s ease forwards;
       position: relative;
       z-index: 1;
-      background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black bg */
-      padding: 10px 20px;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 10px 18px;
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(0,0,0,0.7);
-      max-width: 90%;
+      max-width: 100%;
       margin: 0 auto 20px;
+      word-break: break-word;
     }
 
     h1 {
-      font-size: 2.5em;
+      font-size: 2.2rem;
       color: #ff7fbf;
       animation-delay: 0.2s;
       text-shadow: 0 0 10px #ff4d94;
+      line-height: 1.1;
     }
 
     p {
-      font-size: 1.2em;
+      font-size: 1rem;
       color: #ffc0d9;
       animation-delay: 0.5s;
       text-shadow: 0 0 8px #cc6699;
@@ -65,37 +64,24 @@
     }
 
     @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+      to { opacity: 1; }
     }
 
     audio {
       display: none;
     }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 2em;
-      }
-
-      p {
-        font-size: 1em;
-      }
-    }
   </style>
 </head>
 <body>
+
   <div class="overlay"></div>
 
-  <!-- Main message -->
   <h1>Yay! 💖</h1>
   <p>
-    I can't wait to make amazing memories with you. <br />
+    I can't wait to make amazing memories with you.<br />
     You're the most sweetest and dearest thing to me in my life, Minahil 💌
   </p>
 
-  <!-- Background Music -->
   <audio autoplay loop id="bg-music">
     <source src="jeff-buckley-snippet.mp3" type="audio/mpeg" />
     Your browser does not support the audio element.
