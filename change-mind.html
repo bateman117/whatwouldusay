@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Please Change Your Mind</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
       background: #ffe6f0;
@@ -14,14 +15,26 @@
       margin: 0;
       text-align: center;
       color: #cc0066;
-      padding: 20px;
+      padding: 20px 15px;
     }
     h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
+      font-size: 2.5rem;
+      margin-bottom: 18px;
+      line-height: 1.1;
     }
     p {
-      font-size: 1.5em;
+      font-size: 1.2rem;
+      margin: 0;
+      line-height: 1.4;
+    }
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 16px;
+      }
+      p {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
