@@ -4,9 +4,10 @@
 <meta charset="UTF-8" />
 <title>Letter with Bigger Size</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<!-- Using Dancing Script for letter and Next button font -->
+<!-- Dancing Script font for letter and next button -->
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet" />
 <style>
+  /* Mobile first */
   body {
     margin: 0;
     background: linear-gradient(to bottom, #fdeff2, #f8bbd0);
@@ -15,12 +16,15 @@
     justify-content: center;
     align-items: center;
     font-family: 'Dancing Script', cursive;
+    padding: 15px;
+    box-sizing: border-box;
+    text-align: center;
   }
 
   .envelope {
     width: 95vw;
-    max-width: 1100px;
-    height: 430px;
+    max-width: 400px;
+    height: 380px;
     background: #f48fb1;
     border-radius: 16px;
     position: relative;
@@ -32,7 +36,7 @@
   }
 
   .envelope.open {
-    height: 850px;
+    height: 780px;
   }
 
   .flap {
@@ -55,14 +59,13 @@
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
   }
 
-  /* Seal with deep burgundy wax color */
   .seal {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(1);
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     background: radial-gradient(circle at 50% 40%, #6a141a, #3b0b0f 80%);
     border-radius: 50%;
     box-shadow:
@@ -72,8 +75,7 @@
     align-items: center;
     justify-content: center;
     color: #e9bcbc;
-    font-size: 2.6rem;
-    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
     font-weight: 900;
     letter-spacing: 0.03em;
     z-index: 4;
@@ -121,16 +123,15 @@
     transform: rotateX(-180deg);
   }
 
-  /* Paper with triangle top and subtle paper texture */
   .paper {
     position: absolute;
     top: 40px;
     left: 5%;
     width: 90%;
     height: calc(100% - 80px);
-    max-height: 780px;
+    max-height: 650px;
     background: white url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
-    background-size: 200px 200px;
+    background-size: 120px 120px;
     border-radius: 0 0 12px 12px;
     opacity: 0;
     pointer-events: none;
@@ -141,8 +142,9 @@
     z-index: 1;
     display: flex;
     flex-direction: column;
-    clip-path: polygon(0 35px, 50% 0, 100% 35px, 100% 100%, 0% 100%);
-    padding: 4rem 5rem 3.5rem;
+    clip-path: polygon(0 20px, 50% 0, 100% 20px, 100% 100%, 0% 100%);
+    padding: 2.5rem 3rem 2rem;
+    overflow-y: auto;
   }
 
   .envelope.open .paper {
@@ -151,17 +153,15 @@
     transform: translateY(0);
   }
 
-  /* Letter text styling with improved readability */
   #letter {
     flex-grow: 1;
-    font-family: 'Dancing Script', cursive;
-    font-size: 2.1rem;
-    line-height: 3.1rem;
+    font-size: 1.2rem;
+    line-height: 1.7rem;
     color: #5c0b2d;
-    overflow-y: auto;
     user-select: text;
     letter-spacing: 0.03em;
     text-shadow: 0.5px 0.5px 0.5px rgba(139, 69, 90, 0.2);
+    overflow-y: auto;
   }
 
   .line {
@@ -169,24 +169,22 @@
     margin-bottom: 0.8rem;
     animation: handwriting 0.4s ease forwards;
   }
-  
+
   @keyframes handwriting {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Next button: softer, handwritten style with gentle hover */
   .next-button {
     font-family: 'Dancing Script', cursive;
     font-weight: 500;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: #6a1b4d;
     background: linear-gradient(135deg, #f8bbd0, #f48fb1);
     border: none;
     border-radius: 30px;
     padding: 0.6rem 2rem;
-    margin-top: 1.2rem;
-    align-self: center;
+    margin: 1rem auto 0 auto;
     cursor: pointer;
     text-decoration: none;
     box-shadow: 0 6px 12px rgba(244, 143, 177, 0.4);
@@ -194,6 +192,8 @@
     user-select: none;
     outline-offset: 2px;
     outline-color: #f48fb1;
+    max-width: 200px;
+    display: block;
   }
 
   .next-button:hover,
@@ -204,21 +204,23 @@
     outline: none;
   }
 
-  /* Mobile-friendly "Open Letter" button */
   .mobile-open-btn {
-    display: none;
+    display: block;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 1.1rem;
     background: #f48fb1;
     color: white;
     border: none;
     border-radius: 20px;
-    padding: 0.6rem 1.5rem;
-    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    margin: 1rem auto 0 auto;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(244, 143, 177, 0.6);
     transition: background-color 0.3s ease;
+    max-width: 220px;
+    user-select: none;
+    outline-offset: 2px;
   }
 
   .mobile-open-btn:hover,
@@ -228,42 +230,35 @@
     box-shadow: 0 6px 14px rgba(240, 100, 140, 0.8);
   }
 
-  @media (max-width: 768px) {
+  /* Hide mobile open button on larger than mobile */
+  @media(min-width: 481px) {
     .mobile-open-btn {
-      display: block;
-    }
-    /* Slightly bigger tap area for envelope */
-    .envelope {
-      padding: 1rem;
+      display: none;
     }
     .envelope {
-      height: 380px;
+      max-width: 1100px;
+      height: 430px;
     }
     .envelope.open {
-      height: 780px;
+      height: 850px;
     }
     .paper {
-      font-size: 1.5rem;
-      line-height: 2rem;
-      padding: 3rem 3.5rem 2.5rem;
-      clip-path: polygon(0 25px, 50% 0, 100% 25px, 100% 100%, 0% 100%);
-      max-height: 650px;
-      background-size: 150px 150px;
+      font-size: 2.1rem;
+      line-height: 3.1rem;
+      padding: 4rem 5rem 3.5rem;
+      clip-path: polygon(0 35px, 50% 0, 100% 35px, 100% 100%, 0% 100%);
+      max-height: 780px;
+      background-size: 200px 200px;
     }
     .seal {
-      width: 60px;
-      height: 60px;
-      font-size: 2rem;
+      width: 70px;
+      height: 70px;
+      font-size: 2.6rem;
     }
-  }
-  @media (max-width: 480px) {
-    .paper {
-      font-size: 1.2rem;
-      line-height: 1.7rem;
-      padding: 2.5rem 3rem 2rem;
-      clip-path: polygon(0 20px, 50% 0, 100% 20px, 100% 100%, 0% 100%);
-      max-height: 550px;
-      background-size: 120px 120px;
+    .next-button {
+      font-size: 1.4rem;
+      max-width: 260px;
+      margin-top: 1.2rem;
     }
   }
 </style>
@@ -280,7 +275,6 @@
     </div>
   </div>
 
-  <!-- Sounds -->
   <audio id="sealSound" src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_2c0d6a6e4e.mp3?filename=paper-open-116994.mp3" preload="auto"></audio>
   <audio id="hoverSound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_67e2697633.mp3?filename=paper-flip-6852.mp3" preload="auto"></audio>
 
@@ -333,7 +327,6 @@
 
     envelope.addEventListener('click', openLetter);
 
-    // Keyboard accessibility: open on Enter or Space
     envelope.addEventListener('keydown', e => {
       if ((e.key === 'Enter' || e.key === ' ') && !envelope.classList.contains('open')) {
         e.preventDefault();
@@ -341,7 +334,6 @@
       }
     });
 
-    // Play subtle paper sound on hover
     envelope.addEventListener('mouseenter', () => {
       if (!envelope.classList.contains('open')) {
         hoverSound.currentTime = 0;
