@@ -54,9 +54,8 @@
     box-shadow: inset 0 -4px 15px rgba(255, 255, 255, 0.2);
   }
 
-  .envelope:hover .flap {
-    transform: rotateX(-15deg);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  .envelope.open .flap {
+    transform: rotateX(-180deg);
   }
 
   .seal {
@@ -93,34 +92,9 @@
     100% { transform: translate(-50%, -50%) scale(1); }
   }
 
-  .seal::before, .seal::after {
-    content: "";
-    position: absolute;
-    bottom: -10px;
-    width: 10px;
-    height: 15px;
-    background: linear-gradient(180deg, #7a2025 0%, #4b1012 100%);
-    border-radius: 50% / 80%;
-    box-shadow: 0 3px 5px rgba(70, 50, 0, 0.7);
-  }
-  .seal::before {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .seal::after {
-    left: 35%;
-    bottom: -5px;
-    width: 6px;
-    height: 10px;
-    box-shadow: 0 2px 3px rgba(70, 50, 0, 0.6);
-  }
-
   .envelope.open .seal {
     opacity: 0;
-  }
-
-  .envelope.open .flap {
-    transform: rotateX(-180deg);
+    transform: translate(-50%, -50%) scale(0);
   }
 
   .paper {
@@ -194,6 +168,14 @@
     outline-color: #f48fb1;
     max-width: 200px;
     display: block;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .next-button.visible {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .next-button:hover,
@@ -204,73 +186,19 @@
     outline: none;
   }
 
+  /* Hide mobile open button completely */
   .mobile-open-btn {
-    display: block;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 1.1rem;
-    background: #f48fb1;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 0.8rem 1.5rem;
-    margin: 1rem auto 0 auto;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(244, 143, 177, 0.6);
-    transition: background-color 0.3s ease;
-    max-width: 220px;
-    user-select: none;
-    outline-offset: 2px;
-  }
-
-  .mobile-open-btn:hover,
-  .mobile-open-btn:focus {
-    background: #f06292;
-    outline: none;
-    box-shadow: 0 6px 14px rgba(240, 100, 140, 0.8);
-  }
-
-  /* Hide mobile open button on larger than mobile */
-  @media(min-width: 481px) {
-    .mobile-open-btn {
-      display: none;
-    }
-    .envelope {
-      max-width: 1100px;
-      height: 430px;
-    }
-    .envelope.open {
-      height: 850px;
-    }
-    .paper {
-      font-size: 2.1rem;
-      line-height: 3.1rem;
-      padding: 4rem 5rem 3.5rem;
-      clip-path: polygon(0 35px, 50% 0, 100% 35px, 100% 100%, 0% 100%);
-      max-height: 780px;
-      background-size: 200px 200px;
-    }
-    .seal {
-      width: 70px;
-      height: 70px;
-      font-size: 2.6rem;
-    }
-    .next-button {
-      font-size: 1.4rem;
-      max-width: 260px;
-      margin-top: 1.2rem;
-    }
+    display: none !important;
   }
 </style>
 </head>
 <body>
 
-  <div class="envelope" id="envelope" title="Click to open the letter" tabindex="0" aria-label="Letter envelope. Press Enter or click to open.">
+  <div class="envelope" id="envelope" tabindex="0" role="button" aria-label="Letter envelope. Press Enter or click to open.">
     <div class="flap"></div>
     <div class="seal" id="seal">M</div>
     <div class="paper" id="paper">
       <div id="letter"></div>
-      <button id="mobileOpenBtn" class="mobile-open-btn" aria-label="Open letter" tabindex="0">Open Letter</button>
       <a href="ask.html" class="next-button" id="nextButton" tabindex="0">Next</a>
     </div>
   </div>
@@ -285,7 +213,6 @@
     const seal = document.getElementById('seal');
     const sealSound = document.getElementById('sealSound');
     const hoverSound = document.getElementById('hoverSound');
-    const mobileOpenBtn = document.getElementById('mobileOpenBtn');
 
     const letterLines = [
       "Dear You,",
@@ -318,9 +245,9 @@
       sealSound.currentTime = 0;
       sealSound.play();
       showLetterLines();
-      nextButton.style.opacity = 0;
+      nextButton.classList.remove('visible');
       setTimeout(() => {
-        nextButton.style.opacity = 1;
+        nextButton.classList.add('visible');
         seal.classList.remove('press');
       }, letterLines.length * 200 + 300);
     }
@@ -341,12 +268,6 @@
         hoverSound.play();
       }
     });
-
-    if (mobileOpenBtn) {
-      mobileOpenBtn.addEventListener('click', () => {
-        openLetter();
-      });
-    }
   </script>
 
 </body>
