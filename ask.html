@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Minahil 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    /* Mobile-first base styles */
     body {
       background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,7 +15,6 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
-      overflow: hidden;
       padding: 0 20px;
       text-align: center;
       color: #cc0066;
@@ -22,15 +23,20 @@
     }
 
     h1 {
-      font-size: 2.8em;
-      margin-bottom: 50px;
+      font-size: 2rem;
+      margin-bottom: 40px;
       opacity: 0;
       animation: fadeInUp 0.8s ease forwards;
+      line-height: 1.2;
+      max-width: 100%;
+      word-wrap: break-word;
     }
 
     button {
-      font-size: 1.2em;
-      padding: 14px 30px;
+      font-size: 1.1rem;
+      padding: 14px 0;
+      width: 100%;
+      max-width: 320px;
       border: none;
       border-radius: 12px;
       cursor: pointer;
@@ -42,6 +48,7 @@
       animation: fadeInUp 0.8s ease forwards;
       animation-delay: 0.4s;
       user-select: none;
+      touch-action: manipulation;
     }
 
     button:hover,
@@ -67,22 +74,11 @@
         transform: translateY(0);
       }
     }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 2em;
-        margin-bottom: 40px;
-      }
-      button {
-        font-size: 1em;
-        padding: 12px 26px;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <h1>Now knowing that I would like to ask you something.../h1> 
+  <h1>Now knowing that I would like to ask you something...</h1>
 
   <button id="whatBtn" onclick="goToLetter()">What is it?</button>
 
