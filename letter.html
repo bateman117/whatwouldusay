@@ -1,228 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Letter with Bigger Size</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<!-- Dancing Script font for letter and next button -->
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet" />
-<style>
-  /* Mobile first */
-  body {
-    margin: 0;
-    background: linear-gradient(to bottom, #fdeff2, #f8bbd0);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Dancing Script', cursive;
-    padding: 15px;
-    box-sizing: border-box;
-    text-align: center;
-  }
+  <meta charset="UTF-8" />
+  <title>To You Who I Call Love</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom, #fdeff2, #f8bbd0);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Dancing Script', cursive;
+      padding: 15px;
+      box-sizing: border-box;
+      text-align: center;
+    }
 
-  .envelope {
-    width: 95vw;
-    max-width: 400px;
-    height: 380px;
-    background: #f48fb1;
-    border-radius: 16px;
-    position: relative;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    cursor: pointer;
-    perspective: 1200px;
-    transition: height 0.6s ease;
-  }
+    .envelope {
+      width: 95vw;
+      max-width: 420px;
+      height: 380px;
+      background: #f48fb1;
+      border-radius: 16px;
+      position: relative;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      cursor: pointer;
+      perspective: 1200px;
+      transition: height 0.6s ease;
+    }
 
-  .envelope.open {
-    height: 780px;
-  }
+    .envelope.open {
+      height: 780px;
+    }
 
-  .flap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #f06292;
-    transform-origin: top;
-    transform: rotateX(0deg);
-    transition: transform 1s ease;
-    z-index: 3;
-    border-radius: 16px;
-    box-shadow: inset 0 -4px 15px rgba(255, 255, 255, 0.2);
-  }
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #f06292;
+      transform-origin: top;
+      transform: rotateX(0deg);
+      transition: transform 1s ease;
+      z-index: 3;
+      border-radius: 16px;
+      box-shadow: inset 0 -4px 15px rgba(255, 255, 255, 0.2);
+    }
 
-  .envelope.open .flap {
-    transform: rotateX(-180deg);
-  }
+    .envelope.open .flap {
+      transform: rotateX(-180deg);
+    }
 
-  .seal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    width: 60px;
-    height: 60px;
-    background: radial-gradient(circle at 50% 40%, #6a141a, #3b0b0f 80%);
-    border-radius: 50%;
-    box-shadow:
-      inset 0 5px 10px rgba(180, 50, 50, 0.8),
-      0 4px 12px rgba(70, 10, 10, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #e9bcbc;
-    font-size: 2rem;
-    font-weight: 900;
-    letter-spacing: 0.03em;
-    z-index: 4;
-    transition: opacity 0.5s ease, transform 0.3s ease;
-    user-select: none;
-  }
+    .seal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at 50% 40%, #6a141a, #3b0b0f 80%);
+      border-radius: 50%;
+      box-shadow: inset 0 5px 10px rgba(180, 50, 50, 0.8),
+                  0 4px 12px rgba(70, 10, 10, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e9bcbc;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      z-index: 4;
+      transition: opacity 0.5s ease, transform 0.3s ease;
+      user-select: none;
+    }
 
-  .seal.press {
-    animation: pressSeal 0.3s ease forwards;
-  }
+    .seal.press {
+      animation: pressSeal 0.3s ease forwards;
+    }
 
-  @keyframes pressSeal {
-    0%   { transform: translate(-50%, -50%) scale(1); }
-    50%  { transform: translate(-50%, -48%) scale(0.95); }
-    100% { transform: translate(-50%, -50%) scale(1); }
-  }
+    @keyframes pressSeal {
+      0%   { transform: translate(-50%, -50%) scale(1); }
+      50%  { transform: translate(-50%, -48%) scale(0.95); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
 
-  .envelope.open .seal {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
-  }
+    .envelope.open .seal {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0);
+    }
 
-  .paper {
-    position: absolute;
-    top: 40px;
-    left: 5%;
-    width: 90%;
-    height: calc(100% - 80px);
-    max-height: 650px;
-    background: white url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
-    background-size: 120px 120px;
-    border-radius: 0 0 12px 12px;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s;
-    box-sizing: border-box;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    clip-path: polygon(0 20px, 50% 0, 100% 20px, 100% 100%, 0% 100%);
-    padding: 2.5rem 3rem 2rem;
-    overflow-y: auto;
-  }
+    .paper {
+      position: absolute;
+      top: 40px;
+      left: 5%;
+      width: 90%;
+      height: calc(100% - 80px);
+      max-height: 650px;
+      background: white url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
+      background-size: 120px 120px;
+      border-radius: 0 0 12px 12px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s;
+      box-sizing: border-box;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      clip-path: polygon(0 20px, 50% 0, 100% 20px, 100% 100%, 0% 100%);
+      padding: 2.2rem 1.5rem 1rem;
+      overflow-y: auto;
+    }
 
-  .envelope.open .paper {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-  }
+    .envelope.open .paper {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
 
-  #letter {
-    flex-grow: 1;
-    font-size: 1.2rem;
-    line-height: 1.7rem;
-    color: #5c0b2d;
-    user-select: text;
-    letter-spacing: 0.03em;
-    text-shadow: 0.5px 0.5px 0.5px rgba(139, 69, 90, 0.2);
-    overflow-y: auto;
-  }
+    #letter {
+      flex-grow: 1;
+      font-size: 1.1rem;
+      line-height: 1.7rem;
+      color: #5c0b2d;
+      user-select: text;
+      letter-spacing: 0.02em;
+      text-shadow: 0.5px 0.5px 0.5px rgba(139, 69, 90, 0.15);
+    }
 
-  .line {
-    opacity: 0;
-    margin-bottom: 0.8rem;
-    animation: handwriting 0.4s ease forwards;
-  }
+    .line {
+      opacity: 0;
+      margin-bottom: 0.7rem;
+      animation: handwriting 0.4s ease forwards;
+    }
 
-  @keyframes handwriting {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+    @keyframes handwriting {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-  /* Button row - stacked vertically */
-  .button-row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 1rem;
-  }
+    .button-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 1rem;
+    }
 
-  /* The Next and Song buttons */
-  .next-button,
-  .song-button {
-    font-family: 'Dancing Script', cursive;
-    font-weight: 500;
-    font-size: 1.2rem;
-    color: #6a1b4d;
-    background: linear-gradient(135deg, #f8bbd0, #f48fb1);
-    border: none;
-    border-radius: 30px;
-    padding: 0.6rem 2rem;
-    cursor: pointer;
-    text-decoration: none;
-    box-shadow: 0 6px 12px rgba(244, 143, 177, 0.4);
-    transition: all 0.3s ease;
-    user-select: none;
-    outline-offset: 2px;
-    outline-color: #f48fb1;
-    max-width: 260px;
-    display: inline-block;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-    text-align: center;
-  }
+    .next-button,
+    .song-button {
+      font-family: 'Dancing Script', cursive;
+      font-weight: 500;
+      font-size: 1.2rem;
+      color: #6a1b4d;
+      background: linear-gradient(135deg, #f8bbd0, #f48fb1);
+      border: none;
+      border-radius: 30px;
+      padding: 0.6rem 2rem;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 6px 12px rgba(244, 143, 177, 0.4);
+      transition: all 0.3s ease;
+      max-width: 260px;
+      display: inline-block;
+      opacity: 0;
+      pointer-events: none;
+      text-align: center;
+    }
 
-  .next-button.visible,
-  .song-button.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
+    .next-button.visible,
+    .song-button.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-  .next-button:hover,
-  .next-button:focus,
-  .song-button:hover,
-  .song-button:focus {
-    background: linear-gradient(135deg, #f48fb1, #f06292);
-    box-shadow: 0 10px 20px rgba(244, 143, 177, 0.7);
-    transform: scale(1.07);
-    outline: none;
-  }
+    .next-button:hover,
+    .song-button:hover {
+      background: linear-gradient(135deg, #f48fb1, #f06292);
+      box-shadow: 0 10px 20px rgba(244, 143, 177, 0.6);
+      transform: scale(1.05);
+    }
 
-  /* OR text styling */
-  .or-text {
-    font-family: 'Dancing Script', cursive;
-    font-weight: 600;
-    color: #6a1b4d;
-    font-size: 1.4rem;
-    user-select: none;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-  }
+    .or-text {
+      font-family: 'Dancing Script', cursive;
+      font-weight: 600;
+      color: #6a1b4d;
+      font-size: 1.3rem;
+      user-select: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
 
-  .envelope.open .or-text {
-    opacity: 1;
-    pointer-events: auto;
-  }
+    .envelope.open .or-text {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-  /* Hide mobile open button completely */
-  .mobile-open-btn {
-    display: none !important;
-  }
-</style>
+  </style>
 </head>
 <body>
 
@@ -231,13 +213,11 @@
     <div class="seal" id="seal">M</div>
     <div class="paper" id="paper">
       <div id="letter"></div>
-
       <div class="button-row">
-        <a href="ask.html" class="next-button" id="nextButton" tabindex="0">Next</a>
-        <div class="or-text" aria-hidden="true">OR</div>
-        <a href="aboutyou.html" class="song-button" id="songButton" tabindex="0">Song that reminds me of you</a>
+        <a href="ask.html" class="next-button" id="nextButton">Next</a>
+        <div class="or-text">OR</div>
+        <a href="aboutyou.html" class="song-button" id="songButton">Song that reminds me of you</a>
       </div>
-
     </div>
   </div>
 
@@ -254,16 +234,35 @@
     const hoverSound = document.getElementById('hoverSound');
 
     const letterLines = [
-      "Dear You,",
+      "To you who I call love, Minahil",
       "",
-      "I don’t know how to explain it fully…",
-      "But being around you feels like coming home.",
-      "Not the house, not the city — just *you*.",
-      "You’re safe, beautiful, and quietly powerful.",
-      "I made this just to say: I see you.",
-      "And I care about you more than words can.",
+      "Hi, we’ve definitely had our ups and downs, but that’s part of any relationship.",
+      "I don’t know how to start this off.",
+      "I made a website for you, but I wish I never would have had to make it.",
+      "I wish these things I repeat to you day by day,",
+      "I wish I could look you in the eyes and tell you how,",
+      "from the base of your neck to the arch of your pretty brown eyes,",
+      "your beauty makes a slave of me.",
       "",
-      "Yours, always."
+      "But this is not the end of the world, and neither was it when I fell in love with you.",
+      "I, someone who never needed anyone, tremble at the thought of not hearing from you again.",
+      "Your love humanizes me.",
+      "You have humbled me in a way I could never ask for.",
+      "You’re all that I associate with love.",
+      "You’re all that beauty, personified.",
+      "",
+      "I have never wished for something in my life like I wish to feel your warmth.",
+      "Every time we talk and you tell me that you love me,",
+      "the world feels a little nicer and warmer, making it all seem not so bad.",
+      "",
+      "But still, there’s a lot we both need to work on together,",
+      "and I will be with you every step of the way.",
+      "And I will keep hoping that one day you understand the depth of my love—",
+      "not just that it’s there.",
+      "",
+      "I love you, and I forever will.",
+      "",
+      "- I did not wish to make this so formal, but what can I do?"
     ];
 
     function showLetterLines() {
@@ -294,7 +293,6 @@
     }
 
     envelope.addEventListener('click', openLetter);
-
     envelope.addEventListener('keydown', e => {
       if ((e.key === 'Enter' || e.key === ' ') && !envelope.classList.contains('open')) {
         e.preventDefault();
@@ -306,10 +304,3 @@
       if (!envelope.classList.contains('open')) {
         hoverSound.currentTime = 0;
         hoverSound.volume = 0.15;
-        hoverSound.play();
-      }
-    });
-  </script>
-
-</body>
-</html>
