@@ -32,14 +32,12 @@
 
     .subtext {
       font-size: 1rem;
-      color: rgba(214, 126, 163, 0.6);
-      font-style: italic;
+      color: rgba(184, 86, 123, 0.8);
       margin-bottom: 40px;
       max-width: 320px;
       line-height: 1.4;
-      text-shadow: 0 0 5px rgba(214, 126, 163, 0.25);
+      text-shadow: 0 0 5px rgba(184, 86, 123, 0.35);
       user-select: none;
-      position: relative;
       z-index: 2;
     }
 
@@ -50,7 +48,6 @@
       width: 100%;
       max-width: 360px;
       justify-content: center;
-      position: relative;
     }
 
     button {
@@ -64,8 +61,6 @@
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
       user-select: none;
       max-width: 160px;
-      touch-action: manipulation;
-      position: relative;
     }
 
     .yes {
@@ -83,8 +78,6 @@
     .no {
       background-color: #eee;
       color: #555;
-      position: absolute;
-      transition: left 0.3s ease, top 0.3s ease;
     }
 
     #response {
@@ -94,23 +87,9 @@
       opacity: 0;
       transition: opacity 0.6s ease;
       min-height: 1.6em;
-      position: relative;
       z-index: 2;
     }
 
-    /* Bounce animation */
-    @keyframes bounce {
-      0%   { transform: scale(1); }
-      30%  { transform: scale(1.15); }
-      60%  { transform: scale(0.95); }
-      100% { transform: scale(1); }
-    }
-
-    .bounce {
-      animation: bounce 0.4s ease-out;
-    }
-
-    /* Responsive: stack buttons on small screens */
     @media (max-width: 480px) {
       .subtext {
         font-size: 0.9rem;
@@ -121,18 +100,11 @@
         flex-direction: column;
         gap: 15px;
         max-width: 280px;
-        position: relative;
       }
       button {
         max-width: 100%;
         font-size: 1.1rem;
         padding: 14px 0;
-        position: relative;
-      }
-      .no {
-        position: relative !important;
-        left: auto !important;
-        top: auto !important;
       }
       h1 {
         font-size: 1.8rem;
@@ -140,7 +112,6 @@
       }
     }
 
-    /* Canvas petals */
     #petalCanvas {
       position: fixed;
       top: 0;
@@ -162,68 +133,33 @@
   <h1>Will you be my girlfriend, Minahil? 💌</h1>
 
   <p class="subtext">
-    I cannot sleep a minute knowing your mind exists.<br />
-    I always wanna talk to you until I sleep or wake up.<br />
-    Will you entertain me in that desire?
+    I cannot sleep a minute knowing your mind exists, I always wanna talk to you until I sleep or wake up, will you entertain me in that desire?
   </p>
 
   <div class="buttons">
-    <button class="yes" id="yesBtn" aria-label="Yes, I will be your girlfriend">Yes</button>
-    <button class="no" id="noBtn" aria-label="No, I will not be your girlfriend" style="left: 200px; top: 0;">No</button>
+    <button class="yes" id="yesBtn">Yes</button>
+    <button class="no" id="noBtn">No</button>
   </div>
 
-  <div id="response" aria-live="polite"></div>
+  <div id="response"></div>
 
   <canvas id="petalCanvas"></canvas>
 
   <script>
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-    const responseDiv = document.getElementById("response");
     const audio = document.getElementById("bg-music");
     audio.volume = 0.1;
 
-    let noMoved = false;
-
-    // Move "No" button only once on first hover/touch
-    noBtn.addEventListener("mouseover", moveNoButton);
-    noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      moveNoButton();
-    });
-
-    function moveNoButton() {
-      if (!noMoved) {
-        const maxX = window.innerWidth - noBtn.offsetWidth - 40;
-        const maxY = window.innerHeight - noBtn.offsetHeight - 40;
-        const newX = Math.random() * maxX;
-        const newY = Math.random() * maxY;
-        noBtn.style.left = `${newX}px`;
-        noBtn.style.top = `${newY}px`;
-        noBtn.style.position = "absolute";
-
-        noBtn.classList.remove("bounce");
-        void noBtn.offsetWidth;  // trigger reflow to restart animation
-        noBtn.classList.add("bounce");
-
-        noMoved = true;
-      }
-    }
-
     noBtn.addEventListener("click", () => {
-      if (noMoved) {
-        window.location.href = "change-mind.html";
-      } else {
-        responseDiv.style.opacity = 1;
-        responseDiv.textContent = "Try moving the button first";
-      }
+      window.location.href = "change-mind.html";
     });
 
     yesBtn.addEventListener("click", () => {
       window.location.href = "surprise.html";
     });
 
-    // Petals canvas animation
+    // Petal animation
     const canvas = document.getElementById("petalCanvas");
     const ctx = canvas.getContext("2d");
     let petals = [];
@@ -254,7 +190,7 @@
       }
       draw() {
         ctx.beginPath();
-        ctx.fillStyle = `rgba(255, 182, 193, ${this.alpha})`; // pink with alpha
+        ctx.fillStyle = `rgba(255, 182, 193, ${this.alpha})`;
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
       }
