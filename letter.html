@@ -20,9 +20,6 @@
       background: linear-gradient(to bottom, #fdeff2, #f8bbd0);
       overflow: hidden;
       touch-action: manipulation;
-    }
-
-    body {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -72,8 +69,7 @@
       height: 60px;
       background: radial-gradient(circle at 50% 40%, #6a141a, #3b0b0f 80%);
       border-radius: 50%;
-      box-shadow: inset 0 5px 10px rgba(180, 50, 50, 0.8),
-                  0 4px 12px rgba(70, 10, 10, 0.9);
+      box-shadow: inset 0 5px 10px rgba(180, 50, 50, 0.8), 0 4px 12px rgba(70, 10, 10, 0.9);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -92,7 +88,6 @@
     .paper {
       position: relative;
       width: 100%;
-      height: auto;
       max-height: 80vh;
       margin-top: 40px;
       background: white url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
@@ -244,8 +239,8 @@
       sealSound.play();
       showLetterLines();
       setTimeout(() => {
-        document.getElementById('nextButton').classList.add('visible');
-        document.getElementById('songButton').classList.add('visible');
+        nextButton.classList.add('visible');
+        songButton.classList.add('visible');
       }, letterLines.length * 200 + 400);
     }
 
