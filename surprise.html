@@ -5,10 +5,10 @@
   <title>💘 For You, Minahil 💘</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    /* Base styles optimized for phones */
     body {
       margin: 0;
-      padding: 0 15px;
-      position: relative;
+      padding: 0 12px;
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
       display: flex;
@@ -24,7 +24,8 @@
     .overlay {
       position: fixed;
       top: 0; left: 0;
-      width: 100%; height: 100%;
+      width: 100vw;
+      height: 100vh;
       background-image: url('gandr-collage.jpg');
       background-size: cover;
       background-repeat: no-repeat;
@@ -52,28 +53,28 @@
       position: relative;
       z-index: 1;
       background-color: rgba(0, 0, 0, 0.5);
-      padding: 10px 18px;
+      padding: 8px 14px;
       border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.7);
+      box-shadow: 0 0 12px rgba(0,0,0,0.7);
       max-width: 100%;
-      margin: 0 auto 20px;
+      margin: 0 auto 16px;
       word-break: break-word;
     }
 
     h1 {
-      font-size: 2.2rem;
+      font-size: 1.8rem;
       color: #ff7fbf;
       animation-delay: 0.2s;
-      text-shadow: 0 0 10px #ff4d94;
+      text-shadow: 0 0 8px #ff4d94;
       line-height: 1.1;
     }
 
     p {
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: #ffc0d9;
       animation-delay: 0.5s;
-      text-shadow: 0 0 8px #cc6699;
-      line-height: 1.4;
+      text-shadow: 0 0 6px #cc6699;
+      line-height: 1.3;
     }
 
     @keyframes fadeIn {
@@ -83,6 +84,18 @@
     audio {
       display: none;
     }
+
+    /* Extra small phones tweaks */
+    @media (max-width: 320px) {
+      h1 {
+        font-size: 1.6rem;
+        padding: 6px 10px;
+      }
+      p {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -91,8 +104,8 @@
 
   <h1>Yay! 💖</h1>
   <p>
-   This makes me the happiest. I cant wait to have countless conversations and amazing memories together .<br />
-    You're the most sweetest and dearest thing to me in my life, Minahil.
+   This makes me the happiest. I can't wait to have countless conversations and amazing memories together.<br />
+   You're the most sweetest and dearest thing to me in my life, Minahil.
   </p>
 
   <audio autoplay loop id="bg-music">
