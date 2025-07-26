@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>To You Who I Call Love</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
@@ -15,15 +15,15 @@
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
       font-family: 'Dancing Script', cursive;
       background: linear-gradient(to bottom, #fdeff2, #f8bbd0);
-      overflow: hidden;
-      touch-action: manipulation;
+      min-height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      padding: 10px;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
     }
 
     .envelope {
@@ -33,7 +33,6 @@
       border-radius: 16px;
       position: relative;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      transition: all 0.6s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -90,7 +89,8 @@
       width: 100%;
       max-height: 80vh;
       margin-top: 40px;
-      background: white url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
+      background: white;
+      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
       background-size: 120px 120px;
       border-radius: 0 0 12px 12px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.1);
@@ -100,7 +100,6 @@
       clip-path: polygon(0 20px, 50% 0, 100% 20px, 100% 100%, 0% 100%);
       padding: 2rem 1rem 1rem;
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
     }
 
     .envelope.open .paper {
@@ -112,7 +111,6 @@
       font-size: 1rem;
       line-height: 1.6rem;
       color: #5c0b2d;
-      flex-grow: 1;
     }
 
     .line {
@@ -134,8 +132,7 @@
       gap: 12px;
     }
 
-    .next-button,
-    .song-button {
+    .next-button, .song-button {
       font-family: 'Dancing Script', cursive;
       font-size: 1.1rem;
       color: #6a1b4d;
@@ -147,12 +144,11 @@
       text-align: center;
       box-shadow: 0 4px 10px rgba(244, 143, 177, 0.4);
       opacity: 0;
-      transition: all 0.3s ease;
+      transition: opacity 0.3s ease;
     }
 
-    .next-button.visible,
-    .song-button.visible {
-      opacity: 1;
+    .visible {
+      opacity: 1 !important;
     }
 
     .or-text {
@@ -167,10 +163,23 @@
     .envelope.open .or-text {
       opacity: 1;
     }
+
+    #openLetterBtn {
+      margin-top: 20px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem;
+      padding: 0.5rem 1.5rem;
+      background-color: #f48fb1;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      box-shadow: 0 4px 10px rgba(244, 143, 177, 0.4);
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <div class="envelope" id="envelope" tabindex="0">
+  <div class="envelope" id="envelope">
     <div class="flap"></div>
     <div class="seal" id="seal">M</div>
     <div class="paper" id="paper">
@@ -183,6 +192,8 @@
     </div>
   </div>
 
+  <button id="openLetterBtn">Read Letter</button>
+
   <audio id="sealSound" src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_2c0d6a6e4e.mp3?filename=paper-open-116994.mp3" preload="auto"></audio>
 
   <script>
@@ -193,6 +204,7 @@
     const songButton = document.getElementById('songButton');
     const seal = document.getElementById('seal');
     const sealSound = document.getElementById('sealSound');
+    const openBtn = document.getElementById('openLetterBtn');
 
     const letterLines = [
       "To you who I call love, Minahil",
@@ -203,8 +215,8 @@
       "I wish I could look you in those pretty big brown eyes and tell you how, your beauty wraps around me quietly",
       "",
       "But this is not the end of the world, and neither was it when I fell in love with you.",
-      "Your love shrinks me back to the child i was, scared to lose something close to me.",
-      "I tremble at the thought of never again hearing you talk about how much you love mushrooms and chocolate and then listen to you disapprove any and every opinnion of mine",
+      "Your love shrinks me back to the child I was, scared to lose something close to me.",
+      "I tremble at the thought of never again hearing you talk about how much you love mushrooms and chocolate and then listen to you disapprove any and every opinion of mine",
       "You have humbled me in a way I could never ask for.",
       "You’re all I think about, no matter the time of day. I see you in every beautiful thing, you are all that beauty, personified.",
       "",
@@ -233,8 +245,7 @@
       });
     }
 
-    function openLetter() {
-      if (envelope.classList.contains('open')) return;
+    openBtn.addEventListener('click', () => {
       envelope.classList.add('open');
       sealSound.play();
       showLetterLines();
@@ -242,10 +253,7 @@
         nextButton.classList.add('visible');
         songButton.classList.add('visible');
       }, letterLines.length * 200 + 400);
-    }
-
-    envelope.addEventListener('click', openLetter);
-    envelope.addEventListener('touchend', openLetter);
+    });
   </script>
 </body>
 </html>
