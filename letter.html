@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>To You Who I Call Love</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
@@ -11,38 +11,38 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: auto; /* Allow internal scroll */
+      font-family: 'Dancing Script', cursive;
+      background: linear-gradient(to bottom, #fdeff2, #f8bbd0);
+      overflow-x: hidden;
     }
 
     body {
-      background: linear-gradient(to bottom, #fdeff2, #f8bbd0);
-      font-family: 'Dancing Script', cursive;
       display: flex;
       justify-content: center;
       align-items: center;
-      text-align: center;
-      padding: 15px;
+      padding: 20px 10px;
       box-sizing: border-box;
     }
 
     .envelope {
-      width: 95vw;
+      width: 100%;
       max-width: 420px;
       background: #f48fb1;
       border-radius: 16px;
       position: relative;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
       overflow: hidden;
-      cursor: pointer;
-      perspective: 1200px;
       transition: height 0.6s ease;
-      height: 380px;
+      height: 360px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      perspective: 1000px;
     }
 
     .envelope.open {
-      height: 95vh;
-      max-height: 95vh;
-      align-items: flex-start;
+      height: auto;
+      min-height: 90vh;
     }
 
     .flap {
@@ -81,10 +81,8 @@
       color: #e9bcbc;
       font-size: 2rem;
       font-weight: 900;
-      letter-spacing: 0.03em;
       z-index: 4;
       transition: opacity 0.5s ease, transform 0.3s ease;
-      user-select: none;
     }
 
     .seal.press {
@@ -103,11 +101,8 @@
     }
 
     .paper {
-      position: absolute;
-      top: 40px;
-      left: 5%;
-      width: 90%;
-      height: calc(95vh - 80px);
+      position: relative;
+      width: 100%;
       background: white url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
       background-size: 120px 120px;
       border-radius: 0 0 12px 12px;
@@ -120,9 +115,9 @@
       display: flex;
       flex-direction: column;
       clip-path: polygon(0 20px, 50% 0, 100% 20px, 100% 100%, 0% 100%);
-      padding: 2.2rem 1.5rem 1rem;
+      padding: 2.2rem 1rem 1rem;
+      max-height: 70vh;
       overflow-y: auto;
-      overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -135,17 +130,14 @@
     #letter {
       flex-grow: 1;
       font-family: 'Poppins', sans-serif;
-      font-size: 1.1rem;
-      line-height: 1.7rem;
+      font-size: 1rem;
+      line-height: 1.6rem;
       color: #5c0b2d;
-      user-select: text;
-      letter-spacing: 0.02em;
-      text-shadow: 0.5px 0.5px 0.5px rgba(139, 69, 90, 0.15);
     }
 
     .line {
       opacity: 0;
-      margin-bottom: 0.7rem;
+      margin-bottom: 0.6rem;
       animation: handwriting 0.4s ease forwards;
     }
 
@@ -158,30 +150,26 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 12px;
+      gap: 10px;
       margin-top: 1rem;
     }
 
     .next-button,
     .song-button {
       font-family: 'Dancing Script', cursive;
-      font-weight: 500;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #6a1b4d;
       background: linear-gradient(135deg, #f8bbd0, #f48fb1);
       border: none;
       border-radius: 30px;
-      padding: 0.6rem 2rem;
+      padding: 0.5rem 1.5rem;
       cursor: pointer;
       text-decoration: none;
-      box-shadow: 0 6px 12px rgba(244, 143, 177, 0.4);
+      box-shadow: 0 4px 10px rgba(244, 143, 177, 0.4);
       transition: all 0.3s ease;
-      max-width: 260px;
-      display: inline-block;
+      text-align: center;
       opacity: 0;
       pointer-events: none;
-      text-align: center;
     }
 
     .next-button.visible,
@@ -193,7 +181,6 @@
     .next-button:hover,
     .song-button:hover {
       background: linear-gradient(135deg, #f48fb1, #f06292);
-      box-shadow: 0 10px 20px rgba(244, 143, 177, 0.6);
       transform: scale(1.05);
     }
 
@@ -201,22 +188,18 @@
       font-family: 'Dancing Script', cursive;
       font-weight: 600;
       color: #6a1b4d;
-      font-size: 1.3rem;
-      user-select: none;
+      font-size: 1.2rem;
       opacity: 0;
-      pointer-events: none;
       transition: opacity 0.4s ease;
     }
 
     .envelope.open .or-text {
       opacity: 1;
-      pointer-events: auto;
     }
   </style>
 </head>
 <body>
-
-  <div class="envelope" id="envelope" tabindex="0" role="button" aria-label="Letter envelope. Press Enter or click to open.">
+  <div class="envelope" id="envelope" tabindex="0" role="button" aria-label="Letter envelope. Tap to open.">
     <div class="flap"></div>
     <div class="seal" id="seal">M</div>
     <div class="paper" id="paper">
@@ -300,7 +283,7 @@
     envelope.addEventListener('touchstart', e => {
       e.preventDefault();
       openLetter();
-    });
+    }, { passive: false });
     envelope.addEventListener('keydown', e => {
       if ((e.key === 'Enter' || e.key === ' ') && !envelope.classList.contains('open')) {
         e.preventDefault();
