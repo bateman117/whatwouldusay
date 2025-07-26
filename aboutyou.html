@@ -86,21 +86,35 @@
       transform: translateX(-50%) scale(0.98);
     }
 
-    .rotating-album {
+    /* Vinyl without image - classic spinning disc style */
+    .vinyl {
       width: 140px;
       height: 140px;
       border-radius: 50%;
-      border: 5px solid #cc0066;
+      background: radial-gradient(circle at center, #222 55%, #111 80%);
+      box-shadow:
+        inset 0 0 20px #444,
+        0 6px 18px rgba(0,0,0,0.25);
       position: fixed;
       top: 5px;
       left: 50%;
       transform: translateX(-50%);
       animation: spin 10s linear infinite;
-      box-shadow:
-        inset 0 0 20px rgba(204, 0, 102, 0.3),
-        0 6px 18px rgba(0, 0, 0, 0.2);
-      object-fit: cover;
       z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+    .vinyl::before {
+      content: "";
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle at center, #cc0066 70%, #7a003a 100%);
+      border-radius: 50%;
+      box-shadow: inset 0 0 10px #e04a87;
+      position: absolute;
+      z-index: 10;
     }
 
     @keyframes spin {
@@ -138,21 +152,15 @@
 </head>
 <body>
 
-  <!-- Rotating Playlist Cover -->
-  <a href="https://open.spotify.com/playlist/2fGBClFHsd6BZS8uijCOld?si=5110a88cc7ce47b7" target="_blank" rel="noopener noreferrer">
-    <img
-      src="https://i.scdn.co/image/ab67706f000000028793fd1783d34f6d8aa4de1d"
-      alt="Rotating playlist cover"
-      class="rotating-album"
-    />
-  </a>
+  <!-- Rotating Vinyl Disc with no image -->
+  <div class="vinyl" aria-hidden="true"></div>
 
   <h1>Song That Reminds Me of You</h1>
 
-  <!-- Static Playlist Cover -->
-  <a href="https://open.spotify.com/playlist/2fGBClFHsd6BZS8uijCOld?si=5110a88cc7ce47b7" target="_blank" rel="noopener noreferrer">
+  <!-- Main Playlist Cover uses your new image -->
+  <a href="https://open.spotify.com/playlist/2fGBClFHsd6BZS8uijCOld?si=5110a88cc7ce47b7" target="_blank" rel="noopener noreferrer" aria-label="Open Spotify Playlist">
     <img
-      src="https://i.scdn.co/image/ab67706f000000028793fd1783d34f6d8aa4de1d"
+      src="https://i.imgur.com/bb7rx1U.png"
       alt="Playlist cover"
       class="playlist-cover"
     />
