@@ -7,21 +7,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       font-family: 'Dancing Script', cursive;
       background: linear-gradient(to bottom, #fdeff2, #f8bbd0);
-      overflow-x: hidden;
+      overflow: hidden;
+      touch-action: manipulation;
     }
 
     body {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px 10px;
-      box-sizing: border-box;
+      padding: 10px;
     }
 
     .envelope {
@@ -31,18 +36,12 @@
       border-radius: 16px;
       position: relative;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      transition: height 0.6s ease;
-      height: 360px;
+      transition: all 0.6s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
       perspective: 1000px;
-    }
-
-    .envelope.open {
-      height: auto;
-      min-height: 90vh;
+      overflow: hidden;
     }
 
     .flap {
@@ -68,7 +67,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) scale(1);
+      transform: translate(-50%, -50%);
       width: 60px;
       height: 60px;
       background: radial-gradient(circle at 50% 40%, #6a141a, #3b0b0f 80%);
@@ -85,59 +84,45 @@
       transition: opacity 0.5s ease, transform 0.3s ease;
     }
 
-    .seal.press {
-      animation: pressSeal 0.3s ease forwards;
-    }
-
-    @keyframes pressSeal {
-      0%   { transform: translate(-50%, -50%) scale(1); }
-      50%  { transform: translate(-50%, -48%) scale(0.95); }
-      100% { transform: translate(-50%, -50%) scale(1); }
-    }
-
     .envelope.open .seal {
       opacity: 0;
-      transform: translate(-50%, -50%) scale(0);
+      transform: scale(0);
     }
 
     .paper {
       position: relative;
       width: 100%;
+      height: auto;
+      max-height: 80vh;
+      margin-top: 40px;
       background: white url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
       background-size: 120px 120px;
       border-radius: 0 0 12px 12px;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s;
       box-shadow: 0 6px 18px rgba(0,0,0,0.1);
       z-index: 1;
-      display: flex;
+      display: none;
       flex-direction: column;
       clip-path: polygon(0 20px, 50% 0, 100% 20px, 100% 100%, 0% 100%);
-      padding: 2.2rem 1rem 1rem;
-      max-height: 70vh;
+      padding: 2rem 1rem 1rem;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
 
     .envelope.open .paper {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
+      display: flex;
     }
 
     #letter {
-      flex-grow: 1;
       font-family: 'Poppins', sans-serif;
       font-size: 1rem;
       line-height: 1.6rem;
       color: #5c0b2d;
+      flex-grow: 1;
     }
 
     .line {
       opacity: 0;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.7rem;
       animation: handwriting 0.4s ease forwards;
     }
 
@@ -147,11 +132,11 @@
     }
 
     .button-row {
+      margin-top: 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      margin-top: 1rem;
+      gap: 12px;
     }
 
     .next-button,
@@ -163,25 +148,16 @@
       border: none;
       border-radius: 30px;
       padding: 0.5rem 1.5rem;
-      cursor: pointer;
       text-decoration: none;
-      box-shadow: 0 4px 10px rgba(244, 143, 177, 0.4);
-      transition: all 0.3s ease;
       text-align: center;
+      box-shadow: 0 4px 10px rgba(244, 143, 177, 0.4);
       opacity: 0;
-      pointer-events: none;
+      transition: all 0.3s ease;
     }
 
     .next-button.visible,
     .song-button.visible {
       opacity: 1;
-      pointer-events: auto;
-    }
-
-    .next-button:hover,
-    .song-button:hover {
-      background: linear-gradient(135deg, #f48fb1, #f06292);
-      transform: scale(1.05);
     }
 
     .or-text {
@@ -199,7 +175,7 @@
   </style>
 </head>
 <body>
-  <div class="envelope" id="envelope" tabindex="0" role="button" aria-label="Letter envelope. Tap to open.">
+  <div class="envelope" id="envelope" tabindex="0">
     <div class="flap"></div>
     <div class="seal" id="seal">M</div>
     <div class="paper" id="paper">
@@ -213,16 +189,15 @@
   </div>
 
   <audio id="sealSound" src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_2c0d6a6e4e.mp3?filename=paper-open-116994.mp3" preload="auto"></audio>
-  <audio id="hoverSound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_67e2697633.mp3?filename=paper-flip-6852.mp3" preload="auto"></audio>
 
   <script>
     const envelope = document.getElementById('envelope');
+    const paper = document.getElementById('paper');
     const letter = document.getElementById('letter');
     const nextButton = document.getElementById('nextButton');
     const songButton = document.getElementById('songButton');
     const seal = document.getElementById('seal');
     const sealSound = document.getElementById('sealSound');
-    const hoverSound = document.getElementById('hoverSound');
 
     const letterLines = [
       "To you who I call love, Minahil",
@@ -266,38 +241,16 @@
     function openLetter() {
       if (envelope.classList.contains('open')) return;
       envelope.classList.add('open');
-      seal.classList.add('press');
-      sealSound.currentTime = 0;
       sealSound.play();
       showLetterLines();
-      nextButton.classList.remove('visible');
-      songButton.classList.remove('visible');
       setTimeout(() => {
-        nextButton.classList.add('visible');
-        songButton.classList.add('visible');
-        seal.classList.remove('press');
-      }, letterLines.length * 200 + 300);
+        document.getElementById('nextButton').classList.add('visible');
+        document.getElementById('songButton').classList.add('visible');
+      }, letterLines.length * 200 + 400);
     }
 
     envelope.addEventListener('click', openLetter);
-    envelope.addEventListener('touchstart', e => {
-      e.preventDefault();
-      openLetter();
-    }, { passive: false });
-    envelope.addEventListener('keydown', e => {
-      if ((e.key === 'Enter' || e.key === ' ') && !envelope.classList.contains('open')) {
-        e.preventDefault();
-        openLetter();
-      }
-    });
-
-    envelope.addEventListener('mouseenter', () => {
-      if (!envelope.classList.contains('open')) {
-        hoverSound.currentTime = 0;
-        hoverSound.volume = 0.15;
-        hoverSound.play();
-      }
-    });
+    envelope.addEventListener('touchend', openLetter);
   </script>
 </body>
 </html>
