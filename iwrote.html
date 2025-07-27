@@ -21,7 +21,7 @@
       padding: 20px;
       text-align: center;
     }
-    /* Soft pink glow behind card */
+    /* Soft dusty pink glow behind card */
     body::before {
       content: '';
       position: fixed;
@@ -29,7 +29,7 @@
       left: 50%;
       width: 300px;
       height: 300px;
-      background: #ff66a3;
+      background: #d296aa;
       filter: blur(80px);
       opacity: 0.3;
       transform: translate(-50%, -50%);
@@ -46,13 +46,13 @@
       padding: 2.5rem 2rem 3rem;
       max-width: 360px;
       width: 100%;
-      box-shadow: 0 12px 30px rgba(255, 102, 163, 0.4);
+      box-shadow: 0 12px 30px rgba(210, 150, 170, 0.4);
       user-select: none;
       z-index: 1;
     }
     h1 {
       font-weight: 600;
-      color: #cc0066;
+      color: #d296aa;
       font-size: clamp(1.5rem, 5vw, 2rem);
       margin-bottom: 2.5rem;
       line-height: 1.2;
@@ -61,14 +61,14 @@
       user-select: none;
     }
     button {
-      background: linear-gradient(135deg, #ff66a3, #ff3385);
+      background: linear-gradient(135deg, #d296aa, #ad7a92);
       border: none;
       border-radius: 12px;
       color: white;
       padding: 1rem 0;
       font-size: clamp(1.2rem, 4vw, 1.3rem);
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(255, 51, 133, 0.5);
+      box-shadow: 0 8px 20px rgba(173, 122, 146, 0.5);
       transition: all 0.3s ease;
       user-select: none;
       touch-action: manipulation;
@@ -79,8 +79,8 @@
     }
     button:hover,
     button:focus {
-      background: linear-gradient(135deg, #ff3385, #ff66a3);
-      box-shadow: 0 10px 25px rgba(255, 51, 133, 0.75);
+      background: linear-gradient(135deg, #ad7a92, #d296aa);
+      box-shadow: 0 10px 25px rgba(173, 122, 146, 0.75);
       transform: scale(1.05);
       outline: none;
     }
@@ -130,7 +130,7 @@
       window.location.href = "letter.html";
     }
 
-    // Petal animation - smaller and slower
+    // Petal animation - smaller and slower, dusty pink leaves
     const canvas = document.getElementById("petalCanvas");
     const ctx = canvas.getContext("2d");
     let petals = [];
@@ -161,13 +161,14 @@
       }
       draw() {
         ctx.beginPath();
-        ctx.fillStyle = `rgba(255, 182, 193, ${this.alpha})`;
+        ctx.fillStyle = `rgba(210, 150, 170, ${this.alpha})`;
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
     function initPetals(count = 80) {
+      petals = [];
       for (let i = 0; i < count; i++) {
         petals.push(new Petal());
       }
