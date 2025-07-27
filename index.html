@@ -19,11 +19,27 @@
       overflow: hidden;
       text-align: center;
       position: relative;
+      color: #d296aa; /* dusty pink header */
+    }
+
+    /* Faint cherry blossom tree on the left */
+    #tree {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      height: 100vh;
+      max-width: 300px;
+      opacity: 0.15;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      background: url('https://i.imgur.com/oLqkNsB.png') no-repeat left bottom;
+      background-size: contain;
     }
 
     h1 {
       font-size: 1.8rem;
-      color: #cc0066;
+      color: #d296aa; /* dusty pink header */
       margin-bottom: 40px;
       line-height: 1.2;
       max-width: 100%;
@@ -54,15 +70,13 @@
       user-select: none;
       touch-action: manipulation;
       position: relative;
+      font-weight: 600;
+      background-color: #d296aa; /* dusty pink button background */
+      color: white; /* text white */
     }
-
-    .yes {
-      background-color: #ff66a3;
-      color: white;
-    }
-    .yes:hover,
-    .yes:focus {
-      background-color: #ff3385;
+    button:hover,
+    button:focus {
+      background-color: #ad7a92; /* darker dusty pink on hover */
       transform: scale(1.05);
       outline: none;
     }
@@ -89,10 +103,14 @@
       left: 0;
       pointer-events: none;
       z-index: 1;
+      width: 100vw;
+      height: 100vh;
     }
   </style>
 </head>
 <body>
+
+  <div id="tree"></div>
 
   <audio autoplay loop id="bg-music" muted>
     <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4efb309b5c.mp3" type="audio/mpeg" />
@@ -145,7 +163,7 @@
       window.location.href = "iwrote.html";
     }
 
-    // Falling Petals
+    // Falling cherry blossom leaves in dusty pink
     const canvas = document.getElementById("petalCanvas");
     const ctx = canvas.getContext("2d");
     let petals = [];
@@ -162,27 +180,37 @@
         this.reset();
       }
       reset() {
-        this.x = Math.random() * canvas.width;
+        this.x = Math.random() * canvas.width * 0.25; // near tree on left
         this.y = Math.random() * -canvas.height;
-        this.radius = Math.random() * 4 + 2;
-        this.speedY = Math.random() * 1 + 0.5;
-        this.speedX = Math.random() * 0.5 - 0.25;
-        this.alpha = Math.random() * 0.5 + 0.3;
+        this.radius = Math.random() * 6 + 4;
+        this.speedY = Math.random() * 1.2 + 0.6;
+        this.speedX = Math.random() * 0.2 + 0.1; // subtle right drift
+        this.alpha = Math.random() * 0.6 + 0.4;
+        this.angle = Math.random() * 2 * Math.PI;
+        this.angularSpeed = (Math.random() - 0.5) * 0.02;
       }
       update() {
         this.y += this.speedY;
         this.x += this.speedX;
+        this.angle += this.angularSpeed;
         if (this.y > canvas.height) this.reset();
       }
       draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
         ctx.beginPath();
-        ctx.fillStyle = `rgba(255, 182, 193, ${this.alpha})`;
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, this.radius * 0.7, this.radius, 0, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(210, 150, 170, ${this.alpha})`;
+        ctx.shadowColor = `rgba(210, 150, 170, ${this.alpha})`;
+        ctx.shadowBlur = 7;
         ctx.fill();
+        ctx.restore();
       }
     }
 
-    function initPetals(count = 60) {
+    function initPetals(count = 80) {
+      petals = [];
       for (let i = 0; i < count; i++) {
         petals.push(new Petal());
       }
