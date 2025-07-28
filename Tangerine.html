@@ -14,6 +14,7 @@
       margin: 0;
       padding: 0;
       height: 100%;
+      overflow-x: hidden;
     }
 
     body {
@@ -28,28 +29,6 @@
       position: relative;
       overflow: hidden;
       color: #d296aa;
-    }
-
-    /* Background petals – not falling */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.15;
-      background-image:
-        radial-gradient(ellipse 8px 12px at 10% 20%, #d296aa 30%, transparent 70%),
-        radial-gradient(ellipse 6px 10px at 40% 30%, #d296aa 30%, transparent 70%),
-        radial-gradient(ellipse 7px 11px at 70% 15%, #d296aa 30%, transparent 70%),
-        radial-gradient(ellipse 5px 8px at 80% 50%, #d296aa 30%, transparent 70%),
-        radial-gradient(ellipse 6px 9px at 20% 80%, #d296aa 30%, transparent 70%),
-        radial-gradient(ellipse 9px 13px at 60% 75%, #d296aa 30%, transparent 70%);
-      background-repeat: no-repeat;
-      background-size: auto;
     }
 
     h1 {
@@ -79,7 +58,7 @@
         transform: translate(-50%, -50%) scale(1);
         opacity: 0.5;
       }
-      50 {
+      50% {
         transform: translate(-50%, -50%) scale(1.2);
         opacity: 0.8;
       }
@@ -108,6 +87,8 @@
       background-color: #d296aa;
       color: white;
       user-select: none;
+      position: relative;
+      z-index: 2;
     }
 
     a.button:hover,
@@ -115,6 +96,17 @@
       background-color: #ad7a92;
       transform: scale(1.05);
       outline: none;
+    }
+
+    /* Canvas for petals */
+    #petalCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
     }
   </style>
 </head>
@@ -125,8 +117,82 @@
   <div class="buttons">
     <a href="main.html" class="button">Confession</a>
     <a href="timer.html" class="button">Timer</a>
-    <a href="https://youtu.be/nTp_MJLc8p0" class="button" target="_blank">The Hippopotamus Theory</a>
+    <a href="https://youtu.be/nTp_MJLc8p0" class="button" target="_blank" rel="noopener noreferrer">The Hippopotamus Theory</a>
   </div>
+
+  <canvas id="petalCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('petalCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let petals = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Petal {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * -canvas.height;
+        this.radiusX = 7 + Math.random() * 5;
+        this.radiusY = 10 + Math.random() * 6;
+        this.speedY = 0.6 + Math.random() * 1.2;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.alpha = 0.3 + Math.random() * 0.5;
+        this.angle = Math.random() * 2 * Math.PI;
+        this.angularSpeed = (Math.random() - 0.5) * 0.02;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        this.angle += this.angularSpeed;
+
+        if (this.y > canvas.height) this.reset();
+        if (this.x > canvas.width) this.x = 0;
+        if (this.x < 0) this.x = canvas.width;
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.radiusX * 0.7, this.radiusY, 0, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(210, 150, 170, ${this.alpha})`;
+        ctx.shadowColor = `rgba(210, 150, 170, ${this.alpha})`;
+        ctx.shadowBlur = 7;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function initPetals(count = 80) {
+      petals = [];
+      for (let i = 0; i < count; i++) {
+        petals.push(new Petal());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach(petal => {
+        petal.update();
+        petal.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    initPetals();
+    animate();
+  </script>
 
 </body>
 </html>
