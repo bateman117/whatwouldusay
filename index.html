@@ -89,7 +89,7 @@
 
     .keypad {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 14px;
       margin-bottom: 16px;
     }
@@ -110,8 +110,17 @@
       background-color: #ad7a92;
     }
 
-    .key.wide {
+    .key.zero {
       grid-column: span 2;
+    }
+
+    .key.backspace {
+      grid-column: span 2;
+    }
+
+    .key.wide {
+      grid-column: span 4;
+      justify-self: center;
     }
 
     .shake {
@@ -150,8 +159,8 @@
       <button class="key" onclick="append('7')">7</button>
       <button class="key" onclick="append('8')">8</button>
       <button class="key" onclick="append('9')">9</button>
-      <button class="key" onclick="append('0')">0</button>
-      <button class="key" onclick="backspace()">⌫</button>
+      <button class="key zero" onclick="append('0')">0</button>
+      <button class="key backspace" onclick="backspace()">⌫</button>
       <button class="key wide" onclick="checkCode()">Unlock</button>
     </div>
 
@@ -162,7 +171,6 @@
     let rawInput = '';
 
     function formatInput(input) {
-      // Format as M/DD/YYYY with slashes
       let formatted = '';
       if (input.length >= 1) formatted += input[0];
       if (input.length >= 2) formatted += '/' + input.slice(1, 3);
@@ -188,7 +196,7 @@
     }
 
     function checkCode() {
-      const correct = '1312025'; // 1/31/2025 without slashes
+      const correct = '1312025'; // 1/31/2025
       const lockpad = document.querySelector('.lockpad');
       const errorMsg = document.getElementById('errorMsg');
 
