@@ -1,1 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Unlock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
+      color: #d296aa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.15;
+      z-index: 0;
+      background-image:
+        radial-gradient(ellipse 8px 12px at 10% 20%, #d296aa 30%, transparent 70%),
+        radial-gradient(ellipse 6px 10px at 40% 30%, #d296aa 30%, transparent 70%),
+        radial-gradient(ellipse 7px 11px at 70% 15%, #d296aa 30%, transparent 70%),
+        radial-gradient(ellipse 5px 8px at 80% 50%, #d296aa 30%, transparent 70%),
+        radial-gradient(ellipse 6px 9px at 20% 80%, #d296aa 30%, transparent 70%),
+        radial-gradient(ellipse 9px 13px at 60% 75%, #d296aa 30%, transparent 70%);
+    }
+
+    .lockpad {
+      background: #fff;
+      border-radius: 30px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 92vw;
+      max-width: 360px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .lock-icon {
+      width: 60px;
+      height: 60px;
+      border: 4px solid #d296aa;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      position: relative;
+    }
+
+    .lock-icon::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 20px;
+      border: 4px solid #d296aa;
+      border-bottom: none;
+      border-radius: 15px 15px 0 0;
+    }
+
+    #display {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      padding: 14px 18px;
+      border: 2px solid #d296aa;
+      border-radius: 14px;
+      width: 100%;
+      user-select: none;
+      pointer-events: none;
+      background-color: #fff0f5;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .key {
+      background-color: #d296aa;
+      color: white;
+      font-size: 1.4rem;
+      border: none;
+      border-radius: 14px;
+      padding: 18px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .key:active {
+      transform: scale(0.95);
+      background-color: #ad7a92;
+    }
+
+    .key.wide {
+      grid-column: span 2;
+    }
+
+    .shake {
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-10px); }
+      40% { transform: translateX(10px); }
+      60% { transform: translateX(-10px); }
+      80% { transform: translateX(10px); }
+      100% { transform: translateX(0); }
+    }
+
+    .error {
+      color: #c14444;
+      font-weight: bold;
+      height: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="lockpad">
+    <div class="lock-icon"></div>
+    <div id="display">Enter code</div>
+
+    <div class="keypad">
+      <button class="key" onclick="append('1')">1</button>
+      <button class="key" onclick="append('2')">2</button>
+      <button class="key" onclick="append('3')">3</button>
+      <button class="key" onclick="append('4')">4</button>
+      <button class="key" onclick="append('5')">5</button>
+      <button class="key" onclick="append('6')">6</button>
+      <button class="key" onclick="append('7')">7</button>
+      <button class="key" onclick="append('8')">8</button>
+      <button class="key" onclick="append('9')">9</button>
+      <button class="key" onclick="append('0')">0</button>
+      <button class="key" onclick="backspace()">⌫</button>
+      <button class="key wide" onclick="checkCode()">Unlock</button>
+    </div>
+
+    <div class="error" id="errorMsg"></div>
+  </div>
+
+  <script>
+    let rawInput = '';
+
+    function formatInput(input) {
+      // Format as M/DD/YYYY with slashes
+      let formatted = '';
+      if (input.length >= 1) formatted += input[0];
+      if (input.length >= 2) formatted += '/' + input.slice(1, 3);
+      if (input.length >= 4) formatted += '/' + input.slice(3);
+      return formatted;
+    }
+
+    function updateDisplay() {
+      const display = document.getElementById('display');
+      display.textContent = rawInput ? formatInput(rawInput) : 'Enter code';
+    }
+
+    function append(num) {
+      if (rawInput.length < 7) {
+        rawInput += num;
+        updateDisplay();
+      }
+    }
+
+    function backspace() {
+      rawInput = rawInput.slice(0, -1);
+      updateDisplay();
+    }
+
+    function checkCode() {
+      const correct = '1312025'; // 1/31/2025 without slashes
+      const lockpad = document.querySelector('.lockpad');
+      const errorMsg = document.getElementById('errorMsg');
+
+      if (rawInput === correct) {
+        window.location.href = 'Tangerine.html';
+      } else {
+        errorMsg.textContent = 'Wrong code';
+        lockpad.classList.add('shake');
+        setTimeout(() => lockpad.classList.remove('shake'), 400);
+        rawInput = '';
+        updateDisplay();
+      }
+    }
+
+    updateDisplay();
+  </script>
+
+</body>
+</html>
