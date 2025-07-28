@@ -149,44 +149,62 @@
   </div>
 
   <script>
-    const startDate = new Date("2025-01-31T00:00:00");
-    const hoursCounter = document.getElementById("hours-counter");
-    const daysCounter = document.getElementById("days-counter");
+    document.addEventListener("DOMContentLoaded", () => {
+      // Returns current date/time in Eastern Time zone accounting for DST
+      function getEasternTimeNow() {
+        const now = new Date();
 
-    function updateCounter() {
-      const now = new Date();
-      const diffMs = now - startDate;
+        // Determine if currently in DST by comparing offsets
+        const jan = new Date(now.getFullYear(), 0, 1);
+        const jul = new Date(now.getFullYear(), 6, 1);
+        const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
 
-      const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
-      const totalDays = (diffMs / (1000 * 60 * 60 * 24)).toFixed(1);
+        // Adjust current time to Eastern Time (standard offset in minutes)
+        return new Date(now.getTime() + (stdOffset * 60 * 1000));
+      }
 
-      hoursCounter.textContent = totalHours + " hour" + (totalHours !== 1 ? "s" : "");
-      daysCounter.textContent = totalDays + " day" + (totalDays != 1 ? "s" : "");
-    }
+      // Jan 31, 2025 00:00 ET = 2025-01-31T00:00 ET (approximate UTC conversion)
+      // Month is 0-indexed, so 0 = January
+      const startDateET = new Date(Date.UTC(2025, 0, 31, 0, 0, 0));
 
-    updateCounter();
-    setInterval(updateCounter, 60 * 1000);
+      const hoursCounter = document.getElementById("hours-counter");
+      const daysCounter = document.getElementById("days-counter");
 
-    // Rotating funny facts
-    const funnyFacts = [
-      "Fun Fact: In 4269 hours, a sloth could’ve crossed the country… twice.",
-      "Fun Fact: You could’ve watched all 1000+ episodes of One Piece... twice.",
-      "Fun Fact: Mozart composed 600+ works. You had more time than him. Just saying.",
-      "Fun Fact: You could've hit Grandmaster in chess... or in Fortnite building.",
-      "Fun Fact: You could’ve built a tiny house by hand. Twice. With bad tools.",
-      "Fun Fact: 4269 hours is enough to eat 6,000+ sandwiches. Hypothetically.",
-      "Fun Fact: You could've done 250,000 push-ups. Or at least 3 and then quit.",
-      "Fun Fact: You could’ve started a cult following. Or a mildly successful blog.",
-      "Fun Fact: You could've watched The Lord of the Rings trilogy 850 times.",
-      "Fun Fact: NASA could've trained you to be a low-key astronaut by now.",
-      "Fun Fact: You could’ve binge-watched every single show on Netflix. Twice. Maybe.",
-      "Fun Fact: You could've trained pigeons to deliver mail. With tiny backpacks.",
-      "Fun Fact: A hamster could’ve run a marathon on a wheel. Multiple times.",
-    ];
+      function updateCounter() {
+        const nowET = getEasternTimeNow();
+        const diffMs = nowET - startDateET;
 
-    const factContainer = document.getElementById("funny-fact");
-    const randomIndex = Math.floor(Math.random() * funnyFacts.length);
-    factContainer.textContent = funnyFacts[randomIndex];
+        const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const totalDays = (diffMs / (1000 * 60 * 60 * 24)).toFixed(1);
+
+        hoursCounter.textContent = totalHours + " hour" + (totalHours !== 1 ? "s" : "");
+        daysCounter.textContent = totalDays + " day" + (totalDays != 1 ? "s" : "");
+      }
+
+      updateCounter();
+      setInterval(updateCounter, 60 * 1000);
+
+      // Rotating funny facts
+      const funnyFacts = [
+        "Fun Fact: In 4269 hours, a sloth could’ve crossed the country… twice.",
+        "Fun Fact: You could’ve watched all 1000+ episodes of One Piece... twice.",
+        "Fun Fact: Mozart composed 600+ works. You had more time than him. Just saying.",
+        "Fun Fact: You could've hit Grandmaster in chess... or in Fortnite building.",
+        "Fun Fact: You could’ve built a tiny house by hand. Twice. With bad tools.",
+        "Fun Fact: 4269 hours is enough to eat 6,000+ sandwiches. Hypothetically.",
+        "Fun Fact: You could've done 250,000 push-ups. Or at least 3 and then quit.",
+        "Fun Fact: You could’ve started a cult following. Or a mildly successful blog.",
+        "Fun Fact: You could've watched The Lord of the Rings trilogy 850 times.",
+        "Fun Fact: NASA could've trained you to be a low-key astronaut by now.",
+        "Fun Fact: You could’ve binge-watched every single show on Netflix. Twice. Maybe.",
+        "Fun Fact: You could've trained pigeons to deliver mail. With tiny backpacks.",
+        "Fun Fact: A hamster could’ve run a marathon on a wheel. Multiple times."
+      ];
+
+      const factContainer = document.getElementById("funny-fact");
+      const randomIndex = Math.floor(Math.random() * funnyFacts.length);
+      factContainer.textContent = funnyFacts[randomIndex];
+    });
   </script>
 </body>
 </html>
