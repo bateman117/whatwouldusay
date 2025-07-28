@@ -89,7 +89,7 @@
 
     .keypad {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 14px;
       margin-bottom: 16px;
     }
@@ -110,17 +110,16 @@
       background-color: #ad7a92;
     }
 
-    .key.zero {
-      grid-column: span 2;
-    }
-
-    .key.backspace {
-      grid-column: span 2;
-    }
-
     .key.wide {
-      grid-column: span 4;
+      grid-column: span 3;
       justify-self: center;
+    }
+
+    .key.no-click {
+      cursor: default;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.85;
     }
 
     .shake {
@@ -159,8 +158,9 @@
       <button class="key" onclick="append('7')">7</button>
       <button class="key" onclick="append('8')">8</button>
       <button class="key" onclick="append('9')">9</button>
-      <button class="key zero" onclick="append('0')">0</button>
-      <button class="key backspace" onclick="backspace()">⌫</button>
+      <button class="key" onclick="append('0')">0</button>
+      <button class="key" onclick="backspace()">⌫</button>
+      <button class="key no-click" disabled>:)</button>
       <button class="key wide" onclick="checkCode()">Unlock</button>
     </div>
 
