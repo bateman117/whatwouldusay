@@ -50,34 +50,49 @@
       z-index:2;
       padding: 0 20px;
       text-align: center;
-      color: #7a3d53; /* darker pink for readability */
+      color: #7a3d53;
     }
 
     .bottom-buttons {
-      margin-top: 30px;
+      margin-top: 20px;
       display:flex;
+      flex-direction:column;
       gap:12px;
       z-index:2;
       align-items:center;
-      justify-content:center;
     }
 
-    .bottom-buttons a {
+    /* Main Jellycat button */
+    .bottom-buttons a.jellycat {
       background: #b06b88;
-      padding:20px 36px;       
-      border-radius:20px;      
+      padding:18px 36px;
+      border-radius:20px;
       color:white;
       font-weight:700;
-      font-size:clamp(1.4rem, 4.5vw, 1.8rem); 
       text-decoration:none;
-      min-width:260px;         
+      min-width:220px;
       text-align:center;
       box-shadow:0 8px 16px rgba(0,0,0,0.15);
       transition: all 0.3s ease;
-      animation: pulse 1.5s infinite;
     }
+    .bottom-buttons a.jellycat:hover { background:#ad7a92; transform:scale(1.06); }
 
-    .bottom-buttons a:hover { background:#ad7a92; transform:scale(1.07); }
+    /* Secondary smaller button */
+    .bottom-buttons a.recommend {
+      background: #d296aa;
+      padding:12px 28px;
+      border-radius:18px;
+      color:white;
+      font-weight:700;
+      text-decoration:none;
+      min-width:160px;
+      text-align:center;
+      box-shadow:0 6px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      animation: pulse 1.5s infinite;
+      font-size: clamp(1rem, 4vw, 1.3rem);
+    }
+    .bottom-buttons a.recommend:hover { background:#ad7a92; transform:scale(1.05); }
 
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
@@ -101,15 +116,12 @@
 
   <div class="birthday-screen" id="birthdayScreen">
     <div class="message">
-      I hope you have lots of fun and have the best day of your life.<br>
-      I’m sorry that I couldn’t be there and couldn’t tell you this to your face, 
-      but I love you so much — yes from afar, but even more in spirit.<br>
-      I’m bound by our circumstances, but I still wanted to make your birthday a little special.<br>
-      Can we please choose a Jellycat and get it for you? It would make me so happy 🥹
+      I hope you have lots of fun and have the best day of your life. I’m sorry that I couldn’t be there and couldn’t tell you this to your face, but I love you so much yes from afar but I love you so much further. I’m bound by our circumstances, but I still wanted to make your birthday a little special, so can we please please choose a Jellycat and get it for you? It would make me so happy 🥹
     </div>
 
     <div class="bottom-buttons">
-      <a href="https://us.jellycat.com/" target="_blank">My Recommendations 🤫</a>
+      <a href="https://us.jellycat.com/" target="_blank" class="jellycat">Choose Jellycat</a>
+      <a href="Recommendations.html" class="recommend">My Recommendations 🤫</a>
     </div>
   </div>
 
