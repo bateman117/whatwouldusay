@@ -10,8 +10,8 @@
 
     body {
       background: linear-gradient(to bottom right, #fff0f6, #ffd6e8);
-      display:flex; align-items:center; justify-content:center; text-align:center;
-      color:#b97b93; position:relative;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center; color:#b97b93; position:relative;
     }
 
     .container { z-index:2; }
@@ -35,9 +35,8 @@
       width:100%; height:100%;
       background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
       display:flex;
-      justify-content: space-between;
       align-items:center;
-      padding: 0 6vw;
+      justify-content:center;
       transition: top 0.7s ease;
       z-index:2;
     }
@@ -45,34 +44,50 @@
 
     .message {
       position:absolute;
-      top:50%; left:50%;
+      top:45%;
+      left:50%;
       transform:translate(-50%, -50%);
       max-width:480px;
       font-size:clamp(1.2rem, 4.5vw, 1.6rem);
       line-height:1.6;
       z-index:2;
+      padding: 0 6vw;
     }
 
-    .button-stack {
+    /* Bottom buttons */
+    .bottom-buttons {
+      position:absolute;
+      bottom:40px;
+      left:50%;
+      transform:translateX(-50%);
       display:flex;
       flex-direction:column;
       gap:16px;
-      width:160px;
       z-index:2;
     }
-    .button-stack a {
+
+    .bottom-buttons a {
       text-decoration:none;
-      text-align:center;
-      font-size:clamp(1rem, 4.5vw, 1.4rem);
-      padding:16px;
-      border-radius:12px;
+      font-size:clamp(1.2rem, 4.5vw, 1.6rem);
+      padding:22px 30px;
+      border-radius:18px;
       background:#d296aa;
       color:white;
-      font-weight:600;
-      box-shadow:0 6px 12px rgba(0,0,0,0.1);
-      transition: all 0.3s ease-in-out;
+      font-weight:700;
+      box-shadow:0 10px 20px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+      text-align:center;
     }
-    .button-stack a:hover { background:#ad7a92; transform:scale(1.05); }
+
+    /* Jellycat button darker */
+    .bottom-buttons a.jellycat {
+      background: #b06b88;
+    }
+
+    .bottom-buttons a:hover {
+      background:#ad7a92;
+      transform:scale(1.06);
+    }
 
     #petalCanvas {
       position: fixed;
@@ -90,12 +105,6 @@
   </div>
 
   <div class="birthday-screen" id="birthdayScreen">
-    <div class="button-stack">
-      <a href="#">Left 1</a>
-      <a href="#">Left 2</a>
-      <a href="#">Left 3</a>
-    </div>
-
     <div class="message">
       Happy birthday, Minahil,<br><br>
       I hope you have lots of fun and have the best day of your life.
@@ -106,10 +115,12 @@
       It would genuinely make me really happy 🥹
     </div>
 
-    <div class="button-stack">
-      <a href="#">Right 1</a>
-      <a href="#">Right 2</a>
-      <a href="#">Right 3</a>
+    <div class="bottom-buttons">
+      <!-- Centered Jellycat button -->
+      <a href="https://us.jellycat.com/" target="_blank" class="jellycat">Choose Jellycat</a>
+      <!-- Two previous buttons below -->
+      <a href="#">One More Surprise</a>
+      <a href="#">Another Option</a>
     </div>
   </div>
 
