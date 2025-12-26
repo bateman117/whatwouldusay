@@ -10,43 +10,77 @@
 
     body {
       background: linear-gradient(to bottom right, #fff0f6, #ffd6e8);
-      display:flex; align-items:center; justify-content:center; text-align:center; color:#b97b93; position:relative;
+      display:flex; align-items:center; justify-content:center; text-align:center;
+      color:#b97b93; position:relative;
     }
 
     .container { z-index:2; }
     .birthday-btn {
       font-size: clamp(1.8rem, 7vw, 2.6rem);
-      padding: 28px 36px; border-radius: 18px; background: #d296aa;
-      color: white; border: none; font-weight: 700; cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.15); transition: all 0.3s ease;
+      padding: 28px 36px;
+      border-radius: 18px;
+      background: #d296aa;
+      color: white;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
     }
     .birthday-btn:hover { background: #ad7a92; transform: scale(1.08); }
 
     .birthday-screen {
-      position: fixed; top:100%; left:0; width:100%; height:100%;
+      position: fixed;
+      top:100%; left:0;
+      width:100%; height:100%;
       background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
-      color: #d296aa; display: flex; justify-content: space-between; align-items: center;
-      padding: 0 6vw; transition: top 0.7s ease; z-index:2;
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      padding: 0 6vw;
+      transition: top 0.7s ease;
+      z-index:2;
     }
     .birthday-screen.active { top:0; }
 
     .message {
-      position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);
-      text-align:center; max-width:480px; font-size:clamp(1.2rem, 4.5vw, 1.6rem); line-height:1.6; z-index:2;
+      position:absolute;
+      top:50%; left:50%;
+      transform:translate(-50%, -50%);
+      max-width:480px;
+      font-size:clamp(1.2rem, 4.5vw, 1.6rem);
+      line-height:1.6;
+      z-index:2;
     }
 
     .button-stack {
-      display: flex; flex-direction: column; gap:16px; width:160px; z-index:2; /* increased width */
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      width:160px;
+      z-index:2;
     }
     .button-stack a {
-      text-decoration:none; text-align:center; font-size:clamp(1rem, 4.5vw, 1.4rem);
-      padding:16px; border:none; border-radius:12px; transition: all 0.3s ease-in-out;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1); width:100%; font-weight:600;
-      background-color:#d296aa; color:white; user-select:none;
+      text-decoration:none;
+      text-align:center;
+      font-size:clamp(1rem, 4.5vw, 1.4rem);
+      padding:16px;
+      border-radius:12px;
+      background:#d296aa;
+      color:white;
+      font-weight:600;
+      box-shadow:0 6px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease-in-out;
     }
-    .button-stack a:hover { background-color:#ad7a92; transform:scale(1.05); }
+    .button-stack a:hover { background:#ad7a92; transform:scale(1.05); }
 
-    #petalCanvas { position: fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:1; }
+    #petalCanvas {
+      position: fixed;
+      top:0; left:0;
+      width:100vw; height:100vh;
+      pointer-events:none;
+      z-index:1;
+    }
   </style>
 </head>
 <body>
@@ -63,10 +97,13 @@
     </div>
 
     <div class="message">
-     Happy birthday, Minahil,
-
-     I hope you have lots of fun and have the best day of your life. I’m sorry that I couldn’t be there and couldn’t tell you this to your face, but I love you so much yes from afar but I love you so much further.
-     I’m bound by our circumstances, but I still wanted to make your birthday a little special, so can we please please choose a Jellycat and get it for you? it would make me so happy 🥹
+      Happy birthday, Minahil,<br><br>
+      I hope you have lots of fun and have the best day of your life.
+      I’m sorry that I couldn’t be there and couldn’t tell you this to your face,
+      but I love you — from afar — more than you know.<br><br>
+      I’m bound by our circumstances, but I still wanted to make your birthday a little special,
+      so can we please choose a Jellycat and get it for you?
+      It would genuinely make me really happy 🥹
     </div>
 
     <div class="button-stack">
@@ -83,46 +120,81 @@
     const birthdayScreen = document.getElementById('birthdayScreen');
     const canvas = document.getElementById('petalCanvas');
     const ctx = canvas.getContext('2d');
-    let petals = [];
 
-    function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+    let petals = [];
+    let groundLevel;
+    const groundRiseSpeed = 0.03;
+
+    function resizeCanvas(){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      groundLevel = canvas.height + 40;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
     class Petal {
-      constructor(x,y,burst=false){
+      constructor(x,y,burst=false,fadeIn=false){
         this.x = x ?? Math.random()*canvas.width;
-        this.y = y ?? Math.random()*-canvas.height;
+        this.y = y ?? Math.random()*canvas.height;
         this.radiusX = 6 + Math.random()*4;
         this.radiusY = 9 + Math.random()*5;
         this.speedY = 0.4 + Math.random()*0.6;
-        this.speedX = (Math.random()-0.5)*0.5;
+        this.speedX = (Math.random()-0.5)*0.6;
         this.angle = Math.random()*Math.PI*2;
         this.angularSpeed = (Math.random()-0.5)*0.02;
-        this.alpha = 0.25 + Math.random()*0.4;
+
+        this.baseAlpha = 0.25 + Math.random()*0.4;
+        this.alpha = fadeIn ? 0 : this.baseAlpha;
+        this.fadeIn = fadeIn;
+
+        this.settled = false;
+        this.drift = (Math.random()-0.5)*0.3;
+
         this.burst = burst;
         if(burst){
-          const angle = Math.random()*Math.PI*2;
-          const speed = 4 + Math.random()*3;
-          this.vx = Math.cos(angle)*speed;
-          this.vy = Math.sin(angle)*speed;
+          const a = Math.random()*Math.PI*2;
+          const s = 4 + Math.random()*3;
+          this.vx = Math.cos(a)*s;
+          this.vy = Math.sin(a)*s;
           this.rotationSpeed = (Math.random()-0.5)*0.2;
           this.life = 60 + Math.random()*30;
         }
       }
+
       update(){
+        if(this.fadeIn && this.alpha < this.baseAlpha) this.alpha += 0.01;
+
         if(this.burst){
-          this.x += this.vx; this.y += this.vy;
+          this.x += this.vx;
+          this.y += this.vy;
           this.angle += this.rotationSpeed;
-          this.vy += 0.05; this.vx *= 0.98;
+          this.vy += 0.05;
+          this.vx *= 0.98;
           this.life--;
-        } else {
-          this.y += this.speedY; this.x += this.speedX; this.angle += this.angularSpeed;
+          return;
         }
 
-        if(this.y>canvas.height) this.y=0;
-        if(this.x>canvas.width) this.x=0;
-        if(this.x<0) this.x=canvas.width;
+        if(!this.settled){
+          this.y += this.speedY;
+          this.x += this.speedX;
+          this.angle += this.angularSpeed;
+
+          if(this.y >= groundLevel){
+            this.y = groundLevel;
+            this.settled = true;
+            this.speedY = 0;
+          }
+        } else {
+          this.x += this.drift;
+          this.angle += this.angularSpeed * 0.4;
+        }
+
+        if(!this.settled && this.y > canvas.height + 60) this.y = -20;
+        if(this.x > canvas.width) this.x = 0;
+        if(this.x < 0) this.x = canvas.width;
       }
+
       draw(){
         ctx.save();
         ctx.translate(this.x,this.y);
@@ -130,27 +202,41 @@
         ctx.beginPath();
         ctx.ellipse(0,0,this.radiusX,this.radiusY,0,0,Math.PI*2);
         ctx.fillStyle = `rgba(210,150,170,${this.alpha})`;
-        ctx.shadowBlur = 6; ctx.shadowColor = ctx.fillStyle;
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = ctx.fillStyle;
         ctx.fill();
         ctx.restore();
       }
     }
 
-    function initPetals(count=80){ petals=[]; for(let i=0;i<count;i++){ petals.push(new Petal()); } }
+    function initPetals(count=220){
+      petals=[];
+      for(let i=0;i<count;i++){
+        petals.push(new Petal(null,null,false,true));
+      }
+    }
+
     function animate(){
       ctx.clearRect(0,0,canvas.width,canvas.height);
-      petals.forEach((p,i)=>{ p.update(); p.draw(); if(p.burst && p.life<=0) petals.splice(i,1); });
+
+      groundLevel -= groundRiseSpeed;
+      groundLevel = Math.max(groundLevel, canvas.height*0.65);
+
+      petals.forEach((p,i)=>{
+        p.update();
+        p.draw();
+        if(p.burst && p.life<=0) petals.splice(i,1);
+      });
+
       requestAnimationFrame(animate);
     }
 
     initPetals();
     animate();
 
-    surpriseBtn.addEventListener('click', ()=>{
+    surpriseBtn.addEventListener('click',()=>{
       birthdayScreen.classList.add('active');
       surpriseBtn.style.display='none';
-
-      // Petal burst
       for(let i=0;i<120;i++){
         petals.push(new Petal(canvas.width/2, canvas.height/2, true));
       }
