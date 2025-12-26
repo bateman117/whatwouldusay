@@ -4,144 +4,150 @@
   <meta charset="UTF-8" />
   <title>December 27</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { margin:0; padding:0; height:100%; font-family:'Segoe UI', sans-serif; overflow-x:hidden; }
+
+    html, body {
+      margin:0;
+      padding:0;
+      width:100%;
+      height:100%;
+      font-family:'Segoe UI', sans-serif;
+    }
 
     body {
       background: linear-gradient(to bottom right, #fff0f6, #ffd6e8);
       display:flex;
       flex-direction:column;
       align-items:center;
-      justify-content:flex-start;
-      color:#7a3d53;
+      justify-content:center;
       text-align:center;
-      padding: 20px;
-      position: relative;
+      color:#7a3d53;
+      overflow:hidden;
+      position:relative;
     }
 
     h1 {
-      margin-top: 20px;
-      font-size: clamp(1.5rem, 6vw, 2rem);
-      font-weight: 700;
-      color: #7a3d53;
+      font-size: clamp(1.6rem, 5vw, 2.1rem);
+      margin-bottom: 40px;
       z-index:2;
     }
 
     .center-container {
+      z-index:2;
       display:flex;
-      flex-direction:column;
       align-items:center;
       justify-content:center;
-      width:100%;
-      padding: 20px;
-      z-index:2;
     }
 
     .birthday-btn {
-      font-size: clamp(1.8rem, 7vw, 2.6rem);
-      padding: 28px 36px;
-      border-radius: 18px;
+      font-size: clamp(1.9rem, 6vw, 2.7rem);
+      padding: 28px 40px;
+      border-radius: 20px;
       background: #d296aa;
       color: white;
       border: none;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.18);
       transition: all 0.3s ease;
-      z-index:2;
     }
-    .birthday-btn:hover { background: #ad7a92; transform: scale(1.08); }
+
+    .birthday-btn:hover {
+      background: #ad7a92;
+      transform: scale(1.08);
+    }
 
     .birthday-screen {
       position: fixed;
-      top:100%; left:0;
-      width:100%; height:100%;
+      inset: 0;
       background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      transition: top 0.7s ease;
+      padding: 28px 20px;
+      transform: translateY(100%);
+      transition: transform 0.7s ease;
       z-index:2;
-      padding: 20px;
-      pointer-events:auto;
     }
-    .birthday-screen.active { top:0; }
+
+    .birthday-screen.active {
+      transform: translateY(0);
+    }
 
     .message {
-      max-width: 400px;
-      font-size:clamp(1.2rem, 4vw, 1.6rem);
-      line-height:1.5;
-      text-align:center;
-      margin-bottom: 20px;
-      z-index:2;
+      max-width: 420px;
+      font-size: clamp(1.15rem, 4.2vw, 1.6rem);
+      line-height:1.55;
+      margin-bottom: 28px;
     }
 
     .bottom-buttons {
       display:flex;
       flex-direction:column;
-      gap:12px;
+      gap:14px;
       align-items:center;
       width:100%;
-      z-index:2;
     }
 
-    .bottom-buttons a.jellycat {
-      background: #b06b88;
+    .bottom-buttons a {
+      text-decoration:none;
+      font-weight:700;
+      color:white;
+      text-align:center;
+      transition: all 0.3s ease;
+    }
+
+    .jellycat {
+      background:#b06b88;
       padding:18px 36px;
-      border-radius:20px;
-      color:white;
-      font-weight:700;
-      text-decoration:none;
+      border-radius:22px;
       min-width:220px;
-      text-align:center;
       box-shadow:0 8px 16px rgba(0,0,0,0.15);
-      transition: all 0.3s ease;
     }
-    .bottom-buttons a.jellycat:hover { background:#ad7a92; transform:scale(1.06); }
 
-    .bottom-buttons a.recommend {
-      background: #d296aa;
-      padding:12px 28px;
-      border-radius:18px;
-      color:white;
-      font-weight:700;
-      text-decoration:none;
-      min-width:160px;
-      text-align:center;
-      box-shadow:0 6px 12px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-      animation: pulse 1.5s infinite;
-      font-size: clamp(1rem, 4vw, 1.3rem);
+    .jellycat:hover {
+      background:#ad7a92;
+      transform:scale(1.06);
     }
-    .bottom-buttons a.recommend:hover { background:#ad7a92; transform:scale(1.05); }
+
+    .recommend {
+      background:#d296aa;
+      padding:12px 30px;
+      border-radius:18px;
+      min-width:170px;
+      box-shadow:0 6px 12px rgba(0,0,0,0.1);
+      animation:pulse 1.5s infinite;
+    }
+
+    .recommend:hover {
+      background:#ad7a92;
+      transform:scale(1.05);
+    }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      0%,100% { transform:scale(1); }
+      50% { transform:scale(1.05); }
     }
 
-    #petalCanvas {
-      position: fixed;
-      top:0; left:0;
-      width:100vw; height:100vh;
-      pointer-events:none; /* ensures buttons are clickable */
-      z-index:1;
-    }
-
-    @media (min-width:768px){
+    @media (min-width: 768px) {
       .bottom-buttons {
-        flex-direction: row;
-        justify-content:center;
-        gap:16px;
+        flex-direction:row;
+        gap:18px;
       }
-      .bottom-buttons a.recommend {
-        margin-left: 12px;
-      }
+    }
+
+    canvas {
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:1;
     }
   </style>
 </head>
+
 <body>
 
   <h1>My Prettiest Girl</h1>
@@ -152,110 +158,89 @@
 
   <div class="birthday-screen" id="birthdayScreen">
     <div class="message">
-      I hope you have lots of fun and have the best day of your life. I’m sorry that I couldn’t be there and couldn’t tell you this to your face, but I love you so much yes from afar but I love you so much further. I’m bound by our circumstances, but I still wanted to make your birthday a little special, so can we please please choose a Jellycat and get it for you? It would make me so happy 🥹
+      I hope you have lots of fun and have the best day of your life.
+      I’m sorry I couldn’t be there and couldn’t tell you this to your face,
+      but I love you so much — yes from afar, but even more deeply.
+      I’m bound by our circumstances, but I still wanted to make your birthday
+      a little special. Can we please choose a Jellycat for you?
+      It would make me so happy 🥹
     </div>
 
     <div class="bottom-buttons">
-      <a href="https://us.jellycat.com/" target="_blank" class="jellycat">Choose Jellycat</a>
-      <a href="https://raw.githubusercontent.com/bateman117/whatwouldusay/c4091b6c9d79da2e939c3b806dc5ed0ce8ef518b/myrec.jpg" 
-         target="_blank" class="recommend">My Recommendations 🤫</a>
+      <a class="jellycat" target="_blank" href="https://us.jellycat.com/">Choose Jellycat</a>
+      <a class="recommend" target="_blank"
+         href="https://raw.githubusercontent.com/bateman117/whatwouldusay/c4091b6c9d79da2e939c3b806dc5ed0ce8ef518b/myrec.jpg">
+        My Recommendations 🤫
+      </a>
     </div>
   </div>
 
   <canvas id="petalCanvas"></canvas>
 
   <script>
-    const surpriseBtn = document.getElementById('surprise');
-    const birthdayScreen = document.getElementById('birthdayScreen');
-    const canvas = document.getElementById('petalCanvas');
-    const ctx = canvas.getContext('2d');
+    const btn = document.getElementById("surprise");
+    const screen = document.getElementById("birthdayScreen");
+    const canvas = document.getElementById("petalCanvas");
+    const ctx = canvas.getContext("2d");
 
-    // Show birthday screen
-    surpriseBtn.addEventListener('click',()=>{
-      birthdayScreen.classList.add('active');
-      surpriseBtn.style.display='none';
-      initPetals(200);
-    });
-
-    // Petal effect
-    let petals = [];
-    let groundLevel;
-
-    function resizeCanvas(){
+    function resize() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      groundLevel = canvas.height + 40;
     }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    resize();
+    window.addEventListener("resize", resize);
+
+    const petals = [];
 
     class Petal {
-      constructor(x,y,burst=false){
-        this.x = x ?? Math.random()*canvas.width;
-        this.y = y ?? Math.random()*canvas.height;
-        this.radiusX = 6 + Math.random()*4;
-        this.radiusY = 9 + Math.random()*5;
-        this.speedY = 0.4 + Math.random()*0.6;
-        this.speedX = (Math.random()-0.5)*0.6;
-        this.angle = Math.random()*Math.PI*2;
-        this.angularSpeed = (Math.random()-0.5)*0.02;
-        this.alpha = 0.25 + Math.random()*0.4;
-        this.burst = burst;
-        if(burst){
-          const a = Math.random()*Math.PI*2;
-          const s = 4 + Math.random()*3;
-          this.vx = Math.cos(a)*s;
-          this.vy = Math.sin(a)*s;
-          this.rotationSpeed = (Math.random()-0.5)*0.2;
-          this.life = 60 + Math.random()*30;
-        }
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 1.2;
+        this.vy = Math.random() * 2 + 1;
+        this.sizeX = 6 + Math.random() * 4;
+        this.sizeY = 9 + Math.random() * 5;
+        this.rot = Math.random() * Math.PI;
+        this.alpha = 0.25 + Math.random() * 0.4;
       }
-
-      update(){
-        if(this.burst){
-          this.x += this.vx;
-          this.y += this.vy;
-          this.angle += this.rotationSpeed;
-          this.vy += 0.05;
-          this.vx *= 0.98;
-          this.life--;
-        }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rot += 0.01;
+        if (this.y > canvas.height + 20) this.y = -20;
       }
-
-      draw(){
-        if(this.burst){
-          ctx.save();
-          ctx.translate(this.x,this.y);
-          ctx.rotate(this.angle);
-          ctx.beginPath();
-          ctx.ellipse(0,0,this.radiusX,this.radiusY,0,0,Math.PI*2);
-          ctx.fillStyle = `rgba(210,150,170,${this.alpha})`;
-          ctx.shadowBlur = 6;
-          ctx.shadowColor = ctx.fillStyle;
-          ctx.fill();
-          ctx.restore();
-        }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rot);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.sizeX, this.sizeY, 0, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(210,150,170,${this.alpha})`;
+        ctx.fill();
+        ctx.restore();
       }
     }
 
-    function initPetals(count=220){
-      petals = [];
-      for(let i=0;i<count;i++){
-        petals.push(new Petal(canvas.width/2, canvas.height/2, true));
-      }
+    function introConfetti(count = 160) {
+      petals.length = 0;
+      for (let i = 0; i < count; i++) petals.push(new Petal());
     }
 
-    function animate(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      petals.forEach((p,i)=>{
-        p.update();
-        p.draw();
-        if(p.burst && p.life<=0) petals.splice(i,1);
-      });
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach(p => { p.update(); p.draw(); });
       requestAnimationFrame(animate);
     }
 
+    // ✨ Confetti only on page load
+    introConfetti();
     animate();
+
+    btn.onclick = () => {
+      screen.classList.add("active");
+      btn.style.display = "none";
+    };
   </script>
+
 </body>
 </html>
