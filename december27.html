@@ -54,50 +54,35 @@
     }
 
     .bottom-buttons {
-      margin-top: 20px;
+      margin-top: 30px;
       display:flex;
-      flex-direction:column;
       gap:12px;
       z-index:2;
       align-items:center;
-    }
-
-    .bottom-buttons a.jellycat {
-      background: #b06b88;
-      padding:16px 28px;
-      border-radius:16px;
-      color:white;
-      font-weight:700;
-      text-decoration:none;
-      width:200px;
-      text-align:center;
-      box-shadow:0 6px 12px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-    }
-
-    .bottom-buttons a.jellycat:hover { background:#ad7a92; transform:scale(1.05); }
-
-    .bottom-buttons .row {
-      display:flex;
-      gap:12px;
       justify-content:center;
-      width:100%;
     }
 
-    .bottom-buttons .row a {
-      background: #d296aa;
-      padding:14px 24px;
-      border-radius:16px;
+    .bottom-buttons a {
+      background: #b06b88;
+      padding:20px 36px;       
+      border-radius:20px;      
       color:white;
       font-weight:700;
+      font-size:clamp(1.4rem, 4.5vw, 1.8rem); 
       text-decoration:none;
-      width:120px;
+      min-width:260px;         
       text-align:center;
-      box-shadow:0 6px 12px rgba(0,0,0,0.1);
+      box-shadow:0 8px 16px rgba(0,0,0,0.15);
       transition: all 0.3s ease;
+      animation: pulse 1.5s infinite;
     }
 
-    .bottom-buttons .row a:hover { background:#ad7a92; transform:scale(1.05); }
+    .bottom-buttons a:hover { background:#ad7a92; transform:scale(1.07); }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
 
     #petalCanvas {
       position: fixed;
@@ -116,15 +101,15 @@
 
   <div class="birthday-screen" id="birthdayScreen">
     <div class="message">
-      Happy birthday, Minahil! I hope you have lots of fun and enjoy the best day of your life. I’m sorry I can’t be there to say this in person, but I love you — from afar — more than you know. I wanted to make your birthday a little special. Can we choose a Jellycat and get it for you? It would make me so happy 🥹
+      I hope you have lots of fun and have the best day of your life.<br>
+      I’m sorry that I couldn’t be there and couldn’t tell you this to your face, 
+      but I love you so much — yes from afar, but even more in spirit.<br>
+      I’m bound by our circumstances, but I still wanted to make your birthday a little special.<br>
+      Can we please choose a Jellycat and get it for you? It would make me so happy 🥹
     </div>
 
     <div class="bottom-buttons">
-      <a href="https://us.jellycat.com/" target="_blank" class="jellycat">Choose Jellycat</a>
-      <div class="row">
-        <a href="#">One More Surprise</a>
-        <a href="#">Another Option</a>
-      </div>
+      <a href="https://us.jellycat.com/" target="_blank">My Recommendations 🤫</a>
     </div>
   </div>
 
