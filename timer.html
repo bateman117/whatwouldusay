@@ -85,12 +85,8 @@
     }
 
     @keyframes glow {
-      0%, 100% {
-        text-shadow: 0 0 10px rgba(210, 150, 170, 0.3);
-      }
-      50% {
-        text-shadow: 0 0 20px rgba(210, 150, 170, 0.5);
-      }
+      0%, 100% { text-shadow: 0 0 10px rgba(210, 150, 170, 0.3); }
+      50% { text-shadow: 0 0 20px rgba(210, 150, 170, 0.5); }
     }
 
     .back-button {
@@ -114,6 +110,7 @@
       transition: background-color 0.3s ease, transform 0.3s ease;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      text-align: center;
     }
 
     .back-button a:hover,
@@ -124,16 +121,9 @@
     }
 
     @media (max-width: 320px) {
-      .timer {
-        font-size: 2.2rem;
-      }
-      .days {
-        font-size: 1.2rem;
-      }
-      .back-button a {
-        font-size: 1.1rem;
-        padding: 12px 0;
-      }
+      .timer { font-size: 2.2rem; }
+      .days { font-size: 1.2rem; }
+      .back-button a { font-size: 1.1rem; padding: 12px 0; }
     }
   </style>
 </head>
@@ -150,21 +140,14 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Returns current date/time in Eastern Time zone accounting for DST
       function getEasternTimeNow() {
         const now = new Date();
-
-        // Determine if currently in DST by comparing offsets
         const jan = new Date(now.getFullYear(), 0, 1);
         const jul = new Date(now.getFullYear(), 6, 1);
         const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-
-        // Adjust current time to Eastern Time (standard offset in minutes)
         return new Date(now.getTime() + (stdOffset * 60 * 1000));
       }
 
-      // Jan 31, 2025 00:00 ET = 2025-01-31T00:00 ET (approximate UTC conversion)
-      // Month is 0-indexed, so 0 = January
       const startDateET = new Date(Date.UTC(2025, 0, 31, 0, 0, 0));
 
       const hoursCounter = document.getElementById("hours-counter");
@@ -173,10 +156,8 @@
       function updateCounter() {
         const nowET = getEasternTimeNow();
         const diffMs = nowET - startDateET;
-
         const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
         const totalDays = (diffMs / (1000 * 60 * 60 * 24)).toFixed(1);
-
         hoursCounter.textContent = totalHours + " hour" + (totalHours !== 1 ? "s" : "");
         daysCounter.textContent = totalDays + " day" + (totalDays != 1 ? "s" : "");
       }
@@ -184,7 +165,6 @@
       updateCounter();
       setInterval(updateCounter, 60 * 1000);
 
-      // Rotating funny facts
       const funnyFacts = [
         "Fun Fact: In that many hours, a sloth could’ve crossed the country… twice.",
         "Fun Fact: You could’ve watched all 1000+ episodes of One Piece... twice.",
@@ -196,7 +176,7 @@
         "Fun Fact: You could’ve done 1 million jumping jacks… or just three and a nap.",
         "Fun Fact: You could’ve baked 10,000 cookies. And eaten most of them.",
         "Fun Fact: You could’ve trained a squirrel army. Small, but mighty.",
-        "Fun Fact: You could’ve watched YouTube cat videos for 24/7… and still missed some,
+        "Fun Fact: You could’ve watched YouTube cat videos for 24/7… and still missed some.",
         "Fun Fact: You could’ve binge-read all Harry Potter books… 17 times.",
         "Fun Fact: You could’ve mastered every song on the piano… and still forgot one.",
         "Fun Fact: You could’ve knitted enough sweaters to clothe Antarctica’s penguins.",
