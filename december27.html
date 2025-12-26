@@ -10,11 +10,22 @@
 
     body {
       background: linear-gradient(to bottom right, #fff0f6, #ffd6e8);
-      display:flex; flex-direction:column; align-items:center;
-      text-align:center; color:#b97b93; position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      color:#7a3d53;
+      text-align:center;
+      padding: 20px;
     }
 
-    /* Center container for heading + button */
+    h1 {
+      margin-top: 20px;
+      font-size: clamp(1.5rem, 6vw, 2rem);
+      font-weight: 700;
+      color: #7a3d53;
+    }
+
     .center-container {
       display:flex;
       flex-direction:column;
@@ -23,25 +34,19 @@
       flex:1;
       width:100%;
       padding: 20px;
-    }
-
-    h1 {
-      color: #7a3d53;
-      font-size: clamp(1.6rem, 6vw, 2rem);
-      margin: 0 0 25px 0;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      z-index:3;
     }
 
     .birthday-btn {
-      font-size: clamp(1.6rem, 6vw, 2.4rem);
-      padding: 22px 30px;
+      font-size: clamp(1.8rem, 7vw, 2.6rem);
+      padding: 28px 36px;
       border-radius: 18px;
       background: #d296aa;
       color: white;
       border: none;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
       transition: all 0.3s ease;
     }
     .birthday-btn:hover { background: #ad7a92; transform: scale(1.08); }
@@ -62,55 +67,48 @@
     .birthday-screen.active { top:0; }
 
     .message {
-      width: 100%;
-      max-width: 420px;
-      font-size: clamp(1rem, 4vw, 1.5rem);
-      line-height: 1.6;
-      z-index:2;
-      text-align: center;
-      color: #7a3d53;
-      margin-bottom: 35px;
+      max-width: 400px;
+      font-size:clamp(1.2rem, 4vw, 1.6rem);
+      line-height:1.5;
+      text-align:center;
+      margin-bottom: 20px;
     }
 
     .bottom-buttons {
       display:flex;
       flex-direction:column;
-      gap: 16px;
-      z-index:2;
+      gap:12px;
       align-items:center;
-      width: 100%;
+      width:100%;
     }
 
     .bottom-buttons a.jellycat {
       background: #b06b88;
-      padding:16px 32px;
+      padding:18px 36px;
       border-radius:20px;
       color:white;
       font-weight:700;
       text-decoration:none;
-      width: 100%;
-      max-width: 220px;
+      min-width:220px;
       text-align:center;
-      box-shadow:0 6px 14px rgba(0,0,0,0.15);
+      box-shadow:0 8px 16px rgba(0,0,0,0.15);
       transition: all 0.3s ease;
-      font-size: clamp(1rem, 3.5vw, 1.3rem);
     }
     .bottom-buttons a.jellycat:hover { background:#ad7a92; transform:scale(1.06); }
 
     .bottom-buttons a.recommend {
       background: #d296aa;
-      padding:10px 24px;
+      padding:12px 28px;
       border-radius:18px;
       color:white;
       font-weight:700;
       text-decoration:none;
-      width: 100%;
-      max-width: 180px;
+      min-width:160px;
       text-align:center;
-      box-shadow:0 4px 12px rgba(0,0,0,0.1);
+      box-shadow:0 6px 12px rgba(0,0,0,0.1);
       transition: all 0.3s ease;
       animation: pulse 1.5s infinite;
-      font-size: clamp(0.9rem, 3vw, 1.2rem);
+      font-size: clamp(1rem, 4vw, 1.3rem);
     }
     .bottom-buttons a.recommend:hover { background:#ad7a92; transform:scale(1.05); }
 
@@ -119,19 +117,23 @@
       50% { transform: scale(1.05); }
     }
 
-    @media (max-width: 480px) {
-      h1 { font-size: 1.5rem; margin-bottom: 20px; }
-      .birthday-btn { font-size: 1.4rem; padding: 18px 24px; }
-      .bottom-buttons a.jellycat { font-size: 1rem; padding:14px 24px; }
-      .bottom-buttons a.recommend { font-size: 0.9rem; padding:10px 20px; }
-      .message { font-size: 1rem; margin-bottom: 30px; }
+    @media (min-width:768px){
+      .bottom-buttons {
+        flex-direction: row;
+        justify-content:center;
+        gap:16px;
+      }
+      .bottom-buttons a.recommend {
+        margin-left: 12px;
+      }
     }
   </style>
 </head>
 <body>
 
+  <h1>My Prettiest Girl</h1>
+
   <div class="center-container">
-    <h1>My Prettiest Girl 💖</h1>
     <button class="birthday-btn" id="surprise">Happy Birthday Minahil</button>
   </div>
 
@@ -146,6 +148,16 @@
          target="_blank" class="recommend">My Recommendations 🤫</a>
     </div>
   </div>
+
+  <script>
+    const surpriseBtn = document.getElementById('surprise');
+    const birthdayScreen = document.getElementById('birthdayScreen');
+
+    surpriseBtn.addEventListener('click',()=>{
+      birthdayScreen.classList.add('active');
+      surpriseBtn.style.display='none';
+    });
+  </script>
 
 </body>
 </html>
