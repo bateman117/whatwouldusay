@@ -29,6 +29,11 @@
       position: relative;
       overflow: hidden;
       color: #d296aa;
+      transition: opacity 1.2s ease;
+    }
+
+    body.fade-out {
+      opacity: 0;
     }
 
     h1 {
@@ -78,7 +83,6 @@
       text-align: center;
       font-size: clamp(1rem, 4.5vw, 1.4rem);
       padding: 16px;
-      border: none;
       border-radius: 12px;
       transition: all 0.3s ease-in-out;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
@@ -89,16 +93,14 @@
       user-select: none;
       position: relative;
       z-index: 2;
+      cursor: pointer;
     }
 
-    a.button:hover,
-    a.button:focus {
+    a.button:hover {
       background-color: #ad7a92;
       transform: scale(1.05);
-      outline: none;
     }
 
-    /* Canvas for petals */
     #petalCanvas {
       position: fixed;
       top: 0;
@@ -117,7 +119,10 @@
   <div class="buttons">
     <a href="main.html" class="button">Confession</a>
     <a href="timer.html" class="button">Timer</a>
-    <a href="https://youtu.be/nTp_MJLc8p0" class="button" target="_blank" rel="noopener noreferrer">The Hippopotamus Theory</a>
+    <a class="button" id="dec27">December 27</a>
+    <a href="https://youtu.be/nTp_MJLc8p0" class="button" target="_blank" rel="noopener noreferrer">
+      The Hippopotamus Theory
+    </a>
   </div>
 
   <canvas id="petalCanvas"></canvas>
@@ -127,6 +132,7 @@
     const ctx = canvas.getContext('2d');
 
     let petals = [];
+    let boostPetals = false;
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
@@ -152,7 +158,7 @@
         this.angularSpeed = (Math.random() - 0.5) * 0.02;
       }
       update() {
-        this.y += this.speedY;
+        this.y += boostPetals ? this.speedY * 3 : this.speedY;
         this.x += this.speedX;
         this.angle += this.angularSpeed;
 
@@ -165,9 +171,9 @@
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.beginPath();
-        ctx.ellipse(0, 0, this.radiusX * 0.7, this.radiusY, 0, 0, 2 * Math.PI);
+        ctx.ellipse(0, 0, this.radiusX * 0.7, this.radiusY, 0, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(210, 150, 170, ${this.alpha})`;
-        ctx.shadowColor = `rgba(210, 150, 170, ${this.alpha})`;
+        ctx.shadowColor = ctx.fillStyle;
         ctx.shadowBlur = 7;
         ctx.fill();
         ctx.restore();
@@ -183,15 +189,25 @@
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      petals.forEach(petal => {
-        petal.update();
-        petal.draw();
+      petals.forEach(p => {
+        p.update();
+        p.draw();
       });
       requestAnimationFrame(animate);
     }
 
     initPetals();
     animate();
+
+    // December 27 click behavior
+    document.getElementById('dec27').addEventListener('click', () => {
+      boostPetals = true;
+      document.body.classList.add('fade-out');
+
+      setTimeout(() => {
+        window.location.href = 'december27.html';
+      }, 1200);
+    });
   </script>
 
 </body>
