@@ -25,8 +25,8 @@
     .birthday-screen {
       position: fixed; top:100%; left:0; width:100%; height:100%;
       background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
-      color: #d296aa; display: flex; justify-content: space-between;
-      padding: 8vh 6vw; transition: top 0.7s ease; z-index:2;
+      color: #d296aa; display: flex; justify-content: space-between; align-items: center;
+      padding: 0 6vw; transition: top 0.7s ease; z-index:2;
     }
     .birthday-screen.active { top:0; }
 
@@ -36,7 +36,7 @@
     }
 
     .button-stack {
-      display: flex; flex-direction: column; gap:16px; width:120px; z-index:2;
+      display: flex; flex-direction: column; gap:16px; width:160px; z-index:2; /* increased width */
     }
     .button-stack a {
       text-decoration:none; text-align:center; font-size:clamp(1rem, 4.5vw, 1.4rem);
@@ -52,7 +52,7 @@
 <body>
 
   <div class="container">
-    <button class="birthday-btn" id="surprise">🎉 Happy Birthday 🎉</button>
+    <button class="birthday-btn" id="surprise">Happy Birthday Minahil</button>
   </div>
 
   <div class="birthday-screen" id="birthdayScreen">
@@ -63,7 +63,7 @@
     </div>
 
     <div class="message">
-      🎂 Wishing you a magical day filled with love, laughter, and surprises! 🎂
+      Wishing you a magical day filled with love, laughter, and surprises!
     </div>
 
     <div class="button-stack">
@@ -103,21 +103,17 @@
           this.vx = Math.cos(angle)*speed;
           this.vy = Math.sin(angle)*speed;
           this.rotationSpeed = (Math.random()-0.5)*0.2;
-          this.life = 60 + Math.random()*30; // lifespan frames
+          this.life = 60 + Math.random()*30;
         }
       }
       update(){
         if(this.burst){
-          this.x += this.vx;
-          this.y += this.vy;
+          this.x += this.vx; this.y += this.vy;
           this.angle += this.rotationSpeed;
-          this.vy += 0.05; // gravity effect
-          this.vx *= 0.98; // slow down
+          this.vy += 0.05; this.vx *= 0.98;
           this.life--;
         } else {
-          this.y += this.speedY;
-          this.x += this.speedX;
-          this.angle += this.angularSpeed;
+          this.y += this.speedY; this.x += this.speedX; this.angle += this.angularSpeed;
         }
 
         if(this.y>canvas.height) this.y=0;
@@ -140,17 +136,13 @@
     function initPetals(count=80){ petals=[]; for(let i=0;i<count;i++){ petals.push(new Petal()); } }
     function animate(){
       ctx.clearRect(0,0,canvas.width,canvas.height);
-      petals.forEach((p,i)=>{
-        p.update(); p.draw();
-        if(p.burst && p.life<=0) petals.splice(i,1);
-      });
+      petals.forEach((p,i)=>{ p.update(); p.draw(); if(p.burst && p.life<=0) petals.splice(i,1); });
       requestAnimationFrame(animate);
     }
 
     initPetals();
     animate();
 
-    // Surprise button triggers birthday screen + swirling petal burst
     surpriseBtn.addEventListener('click', ()=>{
       birthdayScreen.classList.add('active');
       surpriseBtn.style.display='none';
