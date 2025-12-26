@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { margin:0; padding:0; height:100%; font-family:'Segoe UI', sans-serif; }
+    html, body { margin:0; padding:0; height:100%; font-family:'Segoe UI', sans-serif; overflow-x:hidden; }
 
     body {
       background: linear-gradient(to bottom right, #fff0f6, #ffd6e8);
@@ -17,6 +17,7 @@
       color:#7a3d53;
       text-align:center;
       padding: 20px;
+      position: relative;
     }
 
     h1 {
@@ -24,6 +25,7 @@
       font-size: clamp(1.5rem, 6vw, 2rem);
       font-weight: 700;
       color: #7a3d53;
+      z-index:2;
     }
 
     .center-container {
@@ -31,10 +33,9 @@
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      flex:1;
       width:100%;
       padding: 20px;
-      z-index:3;
+      z-index:2;
     }
 
     .birthday-btn {
@@ -48,6 +49,7 @@
       cursor: pointer;
       box-shadow: 0 10px 20px rgba(0,0,0,0.15);
       transition: all 0.3s ease;
+      z-index:2;
     }
     .birthday-btn:hover { background: #ad7a92; transform: scale(1.08); }
 
@@ -63,6 +65,7 @@
       transition: top 0.7s ease;
       z-index:2;
       padding: 20px;
+      pointer-events:auto;
     }
     .birthday-screen.active { top:0; }
 
@@ -72,6 +75,7 @@
       line-height:1.5;
       text-align:center;
       margin-bottom: 20px;
+      z-index:2;
     }
 
     .bottom-buttons {
@@ -80,6 +84,7 @@
       gap:12px;
       align-items:center;
       width:100%;
+      z-index:2;
     }
 
     .bottom-buttons a.jellycat {
@@ -117,6 +122,14 @@
       50% { transform: scale(1.05); }
     }
 
+    #petalCanvas {
+      position: fixed;
+      top:0; left:0;
+      width:100vw; height:100vh;
+      pointer-events:none; /* ensures buttons are clickable */
+      z-index:1;
+    }
+
     @media (min-width:768px){
       .bottom-buttons {
         flex-direction: row;
@@ -149,15 +162,100 @@
     </div>
   </div>
 
+  <canvas id="petalCanvas"></canvas>
+
   <script>
     const surpriseBtn = document.getElementById('surprise');
     const birthdayScreen = document.getElementById('birthdayScreen');
+    const canvas = document.getElementById('petalCanvas');
+    const ctx = canvas.getContext('2d');
 
+    // Show birthday screen
     surpriseBtn.addEventListener('click',()=>{
       birthdayScreen.classList.add('active');
       surpriseBtn.style.display='none';
+      initPetals(200);
     });
-  </script>
 
+    // Petal effect
+    let petals = [];
+    let groundLevel;
+
+    function resizeCanvas(){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      groundLevel = canvas.height + 40;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Petal {
+      constructor(x,y,burst=false){
+        this.x = x ?? Math.random()*canvas.width;
+        this.y = y ?? Math.random()*canvas.height;
+        this.radiusX = 6 + Math.random()*4;
+        this.radiusY = 9 + Math.random()*5;
+        this.speedY = 0.4 + Math.random()*0.6;
+        this.speedX = (Math.random()-0.5)*0.6;
+        this.angle = Math.random()*Math.PI*2;
+        this.angularSpeed = (Math.random()-0.5)*0.02;
+        this.alpha = 0.25 + Math.random()*0.4;
+        this.burst = burst;
+        if(burst){
+          const a = Math.random()*Math.PI*2;
+          const s = 4 + Math.random()*3;
+          this.vx = Math.cos(a)*s;
+          this.vy = Math.sin(a)*s;
+          this.rotationSpeed = (Math.random()-0.5)*0.2;
+          this.life = 60 + Math.random()*30;
+        }
+      }
+
+      update(){
+        if(this.burst){
+          this.x += this.vx;
+          this.y += this.vy;
+          this.angle += this.rotationSpeed;
+          this.vy += 0.05;
+          this.vx *= 0.98;
+          this.life--;
+        }
+      }
+
+      draw(){
+        if(this.burst){
+          ctx.save();
+          ctx.translate(this.x,this.y);
+          ctx.rotate(this.angle);
+          ctx.beginPath();
+          ctx.ellipse(0,0,this.radiusX,this.radiusY,0,0,Math.PI*2);
+          ctx.fillStyle = `rgba(210,150,170,${this.alpha})`;
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = ctx.fillStyle;
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+    }
+
+    function initPetals(count=220){
+      petals = [];
+      for(let i=0;i<count;i++){
+        petals.push(new Petal(canvas.width/2, canvas.height/2, true));
+      }
+    }
+
+    function animate(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      petals.forEach((p,i)=>{
+        p.update();
+        p.draw();
+        if(p.burst && p.life<=0) petals.splice(i,1);
+      });
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
 </body>
 </html>
