@@ -160,9 +160,9 @@
     <div class="message">
       I hope you have lots of fun and have the best day of your life.
       I’m sorry I couldn’t be there and couldn’t tell you this to your face,
-      but I love you so much — yes from afar, but even more deeply.
+      but I love you so much — from afar, but even more deeply.
       I’m bound by our circumstances, but I still wanted to make your birthday
-      a little special. Can we please choose a Jellycat for you?
+      a little special. Can we choose a Jellycat for you?
       It would make me so happy 🥹
     </div>
 
@@ -183,6 +183,8 @@
     const canvas = document.getElementById("petalCanvas");
     const ctx = canvas.getContext("2d");
 
+    let confettiOpacity = 1;
+
     function resize() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -196,32 +198,33 @@
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 1.2;
-        this.vy = Math.random() * 2 + 1;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = 0.6 + Math.random() * 0.6;
         this.sizeX = 6 + Math.random() * 4;
         this.sizeY = 9 + Math.random() * 5;
         this.rot = Math.random() * Math.PI;
-        this.alpha = 0.25 + Math.random() * 0.4;
+        this.alpha = 0.2 + Math.random() * 0.35;
       }
       update() {
         this.x += this.vx;
         this.y += this.vy;
-        this.rot += 0.01;
+        this.rot += 0.005;
         if (this.y > canvas.height + 20) this.y = -20;
       }
       draw() {
         ctx.save();
+        ctx.globalAlpha = this.alpha * confettiOpacity;
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rot);
         ctx.beginPath();
         ctx.ellipse(0, 0, this.sizeX, this.sizeY, 0, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(210,150,170,${this.alpha})`;
+        ctx.fillStyle = "#d296aa";
         ctx.fill();
         ctx.restore();
       }
     }
 
-    function introConfetti(count = 160) {
+    function introConfetti(count = 120) {
       petals.length = 0;
       for (let i = 0; i < count; i++) petals.push(new Petal());
     }
@@ -232,13 +235,21 @@
       requestAnimationFrame(animate);
     }
 
-    // ✨ Confetti only on page load
     introConfetti();
     animate();
 
     btn.onclick = () => {
       screen.classList.add("active");
       btn.style.display = "none";
+
+      // ✨ Fade confetti out smoothly
+      const fade = setInterval(() => {
+        confettiOpacity -= 0.03;
+        if (confettiOpacity <= 0) {
+          confettiOpacity = 0;
+          clearInterval(fade);
+        }
+      }, 50);
     };
   </script>
 
