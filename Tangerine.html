@@ -199,14 +199,9 @@
     initPetals();
     animate();
 
-    // December 27 click behavior
+    // December 27 — NO DELAY
     document.getElementById('dec27').addEventListener('click', () => {
-      boostPetals = true;
-      document.body.classList.add('fade-out');
-
-      setTimeout(() => {
-        window.location.href = 'december27.html';
-      }, 1200);
+      window.location.href = 'december27.html';
     });
   </script>
 
